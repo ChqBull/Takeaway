@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Business/Business.iml" filepath="$PROJECT_DIR$/Business/Business.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Business-Order/Business-Order.iml" filepath="$PROJECT_DIR$/Business-Order/Business-Order.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Rider/Rider.iml" filepath="$PROJECT_DIR$/Rider/Rider.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Rider-Order/Rider-Order.iml" filepath="$PROJECT_DIR$/Rider-Order/Rider-Order.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Scheduling/Scheduling.iml" filepath="$PROJECT_DIR$/Scheduling/Scheduling.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Scheduling-Distribution/Scheduling-Distribution.iml" filepath="$PROJECT_DIR$/Scheduling-Distribution/Scheduling-Distribution.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Scheduling-Rider/Scheduling-Rider.iml" filepath="$PROJECT_DIR$/Scheduling-Rider/Scheduling-Rider.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Site/Site.iml" filepath="$PROJECT_DIR$/Site/Site.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Site-Business/Site-Business.iml" filepath="$PROJECT_DIR$/Site-Business/Site-Business.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Site-Financial/Site-Financial.iml" filepath="$PROJECT_DIR$/Site-Financial/Site-Financial.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Site-Order/Site-Order.iml" filepath="$PROJECT_DIR$/Site-Order/Site-Order.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Takeaway.iml" filepath="$PROJECT_DIR$/.idea/Takeaway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TakeawayConfig/TakeawayConfig.iml" filepath="$PROJECT_DIR$/TakeawayConfig/TakeawayConfig.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TakeawayEureka/TakeawayEureka.iml" filepath="$PROJECT_DIR$/TakeawayEureka/TakeawayEureka.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Total/Total.iml" filepath="$PROJECT_DIR$/Total/Total.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Total-Audit/Total-Audit.iml" filepath="$PROJECT_DIR$/Total-Audit/Total-Audit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Total-Page/Total-Page.iml" filepath="$PROJECT_DIR$/Total-Page/Total-Page.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Total-Webmaster/Total-Webmaster.iml" filepath="$PROJECT_DIR$/Total-Webmaster/Total-Webmaster.iml" />
+      <module fileurl="file://$PROJECT_DIR$/User/User.iml" filepath="$PROJECT_DIR$/User/User.iml" />
+      <module fileurl="file://$PROJECT_DIR$/User-LoginRegistration/User-LoginRegistration.iml" filepath="$PROJECT_DIR$/User-LoginRegistration/User-LoginRegistration.iml" />
+      <module fileurl="file://$PROJECT_DIR$/User-Member/User-Member.iml" filepath="$PROJECT_DIR$/User-Member/User-Member.iml" />
+      <module fileurl="file://$PROJECT_DIR$/User-Order/User-Order.iml" filepath="$PROJECT_DIR$/User-Order/User-Order.iml" />
+    </modules>
+  </component>
+</project>

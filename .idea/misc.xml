@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JavaScriptSettings">
+    <option name="languageLevel" value="ES6" />
+  </component>
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/TakeawayEureka/pom.xml" />
+        <option value="$PROJECT_DIR$/TakeawayConfig/pom.xml" />
+        <option value="$PROJECT_DIR$/Business-Order/pom.xml" />
+        <option value="$PROJECT_DIR$/Rider-Order/pom.xml" />
+        <option value="$PROJECT_DIR$/Scheduling-Distribution/pom.xml" />
+        <option value="$PROJECT_DIR$/Site-Business/pom.xml" />
+        <option value="$PROJECT_DIR$/Scheduling-Rider/pom.xml" />
+        <option value="$PROJECT_DIR$/Site-Financial/pom.xml" />
+        <option value="$PROJECT_DIR$/Site-Order/pom.xml" />
+        <option value="$PROJECT_DIR$/Total-Audit/pom.xml" />
+        <option value="$PROJECT_DIR$/Total-Page/pom.xml" />
+        <option value="$PROJECT_DIR$/Total-Webmaster/pom.xml" />
+        <option value="$PROJECT_DIR$/User-LoginRegistration/pom.xml" />
+        <option value="$PROJECT_DIR$/User-Member/pom.xml" />
+        <option value="$PROJECT_DIR$/User-Order/pom.xml" />
+        <option value="$PROJECT_DIR$/User/pom.xml" />
+        <option value="$PROJECT_DIR$/Total/pom.xml" />
+        <option value="$PROJECT_DIR$/Site/pom.xml" />
+        <option value="$PROJECT_DIR$/Scheduling/pom.xml" />
+        <option value="$PROJECT_DIR$/Rider/pom.xml" />
+        <option value="$PROJECT_DIR$/Business/pom.xml" />
+      </list>
+    </option>
+  </component>
+</project>

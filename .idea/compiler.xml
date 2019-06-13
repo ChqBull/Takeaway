@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="Total-Webmaster" />
+        <module name="Total" />
+        <module name="Business-Order" />
+        <module name="Rider-Order" />
+        <module name="User-Order" />
+        <module name="Total-Audit" />
+        <module name="Site-Financial" />
+        <module name="Scheduling-Rider" />
+        <module name="TakeawayEureka" />
+        <module name="TakeawayConfig" />
+        <module name="Scheduling-Distribution" />
+        <module name="User-LoginRegistration" />
+        <module name="Site-Order" />
+        <module name="Site-Business" />
+        <module name="Total-Page" />
+        <module name="Rider" />
+        <module name="Site" />
+        <module name="Scheduling" />
+        <module name="User-Member" />
+        <module name="Business" />
+        <module name="User" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Business" target="1.8" />
+      <module name="Business-Order" target="1.8" />
+      <module name="businessorder" target="1.8" />
+      <module name="Rider" target="1.8" />
+      <module name="Rider-Order" target="1.8" />
+      <module name="Scheduling" target="1.8" />
+      <module name="Scheduling-Distribution" target="1.8" />
+      <module name="Scheduling-Rider" target="1.8" />
+      <module name="schedulingrider" target="1.8" />
+      <module name="Site" target="1.8" />
+      <module name="Site-Business" target="1.8" />
+      <module name="Site-Financial" target="1.8" />
+      <module name="Site-Order" target="1.8" />
+      <module name="sitefinancial" target="1.8" />
+      <module name="springdemo" target="1.8" />
+      <module name="TakeawayConfig" target="1.8" />
+      <module name="TakeawayEureka" target="1.8" />
+      <module name="Total" target="1.8" />
+      <module name="Total-Audit" target="1.8" />
+      <module name="Total-Page" target="1.8" />
+      <module name="Total-Webmaster" target="1.8" />
+      <module name="User" target="1.8" />
+      <module name="User-LoginRegistration" target="1.8" />
+      <module name="User-Member" target="1.8" />
+      <module name="User-Order" target="1.8" />
+      <module name="usermember" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="Scheduling-Rider" options="" />
+      <module name="Site" options="" />
+      <module name="Site-Business" options="" />
+      <module name="Total-Page" options="" />
+      <module name="User-LoginRegistration" options="" />
+      <module name="schedulingrider" options="" />
+      <module name="springdemo" options="-parameters" />
+    </option>
+  </component>
+</project>
