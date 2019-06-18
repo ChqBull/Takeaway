@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>查询站长</title>
+    <link rel="stylesheet" href="/bootstrap/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css"/>
+    <link rel="stylesheet" href="/bootstrap/bootstrap3/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/bootstrap/bootstrap-table/bootstrap-table.css"/>
+    <link rel="stylesheet" href="/bootstrap/bootstrap-fileinput/css/fileinput.css"/>
+    <script src="/bootstrap/easyui1.5/jquery.min.js"></script>
+    <script src="/bootstrap/bootstrap3/js/bootstrap.js"></script>
+    <script src="/bootstrap/bootstrap-table/bootstrap-table.js"></script>
+    <script src="/bootstrap/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
+    <script src="/bootstrap/bootbox/bootbox.all.min.js"></script>
+    <script src="/bootstrap/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+    <script src="/bootstrap/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="/bootstrap/bootstrap-fileinput/js/fileinput.js"></script>
+    <script src="/bootstrap/bootstrap-fileinput/js/locales/zh.js"></script>
+</head>
+<body>
+<!--  条件查询的 form  表单  -->
+<form id="pro_from" class="form-inline">
+    <div class="form-group">
+        <label for="stationName">站长账号</label>
+        <input type="text" class="form-control" id="stationName">
+    </div>
+    <button type="button" class="btn btn-success" onclick="searchBtn()">搜索</button>
+    <button type="button" class="btn btn-primary" onclick="reset()">重置</button>
+</form>
+<button class="btn btn-info" type="button" onclick="addTable()">新增</button>
+<!--查询-->
+<table id="stationAgentTable"></table>
+</body>
+<script>
+    /*页面加载*/
+    $(function () {
+        initStationAgentTable();
+    })
+/*绑定搜索按钮*/
+    function searchBtn(){
+        $('#stationAgentTable').bootstrapTable('refresh');//更新
+    }
+
+    //新增
+    var res;
+    function createAddContent(url){
+        $.ajax({
+            url:url,
+            async:false,
+            success:function(data){
+                res = data;
+            }
+        });
+        return res;
+    }
+    function addTable(){
+        var url='/pageAddActionAgent';//新增的地址
+        var dialog = bootbox.dialog({
+            title: '新增站长',
+            message: createAddContent(url),
+            size: 'large',
+            buttons: {
+                cancel: {
+                    label: "关闭",
+                    className: 'btn-danger',
+                    callback: function(){
+                        console.log('Custom cancel clicked');
+                    }
+                },
+                ok: {
+                    label: "保存",
+                    className: 'btn-info',
+                    callback: function(){
+                        $.ajax({
+                            url:'/addActionAgent',
+                            type:'post',
+                            data:$("#bookForm").serialize(),
+                            dataType:'json',
+                            success:function(data){
+                                if(data){
+                                   location.href="/findStationAgent";//刷新
+                                }else{
+                                    bootbox.alert({
+                                        size: "small",
+                                        title: "提示",
+                                        message: "新增失败",
+                                    });
+                                }
+                            }
+                        })
+                    }
+                }
+            }
+        });
+    }
+    //类型
+    function initAreaId(){
+        $.ajax({
+            url:'/findArea',
+            type:'post',
+            data:{},
+            dataType:'json',
+            success:function(data){
+                var html='<option value="-1">请选择</option>';
+                for (var i = 0; i < data.length; i++) {
+                    html += '<option value="'+data[i].id+'">'+data[i].areaName+'</option>';
+                }
+                $("#areaId").html(html);
+            }
+        })
+    }
+    //修改
+    function edit(id){
+        openDialog(id);//打开修改弹框
+        initAreaId();//类型初始化
+        //查询修改数据
+        $.ajax({
+            url:'/findStationInfoById',
+            type:'post',
+            data:{
+                id:id
+            },
+            dataType:'json',
+            success:function(data){
+                //回显表单
+                $("#ids").val(data.id);
+                $("#stationNameId").val(data.stationName);
+                $("#passwordId").val(data.password);
+                $("#startTimeId").val(data.startTime);
+                $("#areaId").val(data.area_id);
+            }
+        })
+    }
+
+    //弹框封装
+    function openDialog(){
+        var url='/toEditPage';//修改的地址
+        bootbox.dialog({
+            title: '修改站长',
+            message: createAddContent(url),
+            size: 'large',
+            buttons: {
+                cancel: {
+                    label: "关闭",
+                    className: 'btn-danger',
+                    callback: function(){
+                        console.log('Custom cancel clicked');
+                    }
+                },
+                ok: {
+                    label: "保存",
+                    className: 'btn-info',
+                    callback: function(){
+                        $.ajax({
+                            url:'/addActionAgent',
+                            type:'post',
+                            data:$("#bookForm").serialize(),
+                            dataType:'json',
+                            success:function(data){
+                                if(data){
+                                    location.href="/findStationAgent";//刷新
+                                }else{
+                                    bootbox.alert({
+                                        size: "small",
+                                        title: "提示",
+                                        message: "修改失败",
+                                    });
+                                }
+                            }
+                        })
+                    }
+                }
+            }
+        });
+    }
+    /*查询展示*/
+    function initStationAgentTable() {
+        $("#stationAgentTable").bootstrapTable({
+            url: '/findStationAgentList',
+            toolbar: '#toolbar',
+            pagination: true, //是否展示分页
+            pageList: [3, 5, 10, 20, 50],//分页组件
+            pageNumber: 1,
+            pageSize: 3,//默认每页条数
+            //解决条查乱码
+            method: "post",
+            contentType: "application/x-www-form-urlencoded",
+            //传递参数,条件查询,分页传参
+            queryParams: function () {
+                var stationName = $("#stationName").val();//图书名条件查询
+                return {
+                    //有分页的固定传值
+                    page: this.pageNumber,
+                    rows: this.pageSize,
+                    //条查传值
+                    stationName: stationName
+                }
+            },
+            sidePagination: 'server',
+            columns: [
+                {
+                    field: 'id', title: "Id", formatter: function (value, row, index) {   //格式化  当前单元格内容
+                        return '<input type="checkbox" value='+value+' name="chk"/>';
+                    }
+                },
+                {field: 'stationName', title: '站长账号'},
+                {field: 'password', title: '站长密码'},
+                {field: 'startTime', title: '添加账号时间'},
+                {field: 'areaName', title: '所属城市'},
+                {field:'ccc',title:'操作',formatter:function(	value,row,index){
+                        return '<a href="javascript:del(&quot;'+row.id+'&quot;)">删除</a>|<a href="javascript:edit(&quot;'+row.id+'&quot;)">修改</a>'
+                    }
+                }
+            ]
+        })
+    }
+    //删除
+    function del(id){
+        bootbox.confirm({
+            size: "small",
+            message: "确定删除吗?",
+            callback: function(result){
+                if(result){
+                    $.ajax({
+                        url:'/deleteStationAgent',
+                        type:'post',
+                        data:{
+                            id:id,
+                        },
+                        dataType:'json',
+                        success:function(data){
+                            if(data){
+                                location.href="/findStationAgent";//刷新
+                            }else{
+                                bootbox.alert({
+                                    size: "small",
+                                    title: "提示",
+                                    message: "删除失败",
+                                });
+                            }
+                        }
+                    })
+                }
+            }
+        })
+    }
+</script>
+</html>
