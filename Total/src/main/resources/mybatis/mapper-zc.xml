@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jk.mapper.zc.ZcMapper">
+
+   <select id="findlist" resultType="horseman" >
+
+    select * from horseman
+               <!--<if test="hs.horsemanName!=null and hs.horsemanName!=''">
+                   and horsemanName like '%${hs.horsemanName}%'
+               </if>-->
+    limit #{start},#{pageSize}
+
+   </select>
+
+    <select id="findlisttwo" resultType="store">
+
+        select * from store
+
+      <!--  <if test="hs.storeName!=null and hs.storeName!=''">
+            and storeName like '%${hs.storeName}%'
+        </if>-->
+
+        Limit #{start},#{pageSize}
+
+    </select>
+
+    <select id="findcaidan" resultType="MenuBean">
+
+    select me.id,me.foodName,me.foodImg,me.price,me.shenhe,mt.menuType,st.activity,st.storeName from menu me,menu_type mt ,store st  where me.type_id = mt.id and me.store_id = st.id and st.id = '1'
+       <!-- <if test="hs.foodName!=null and hs.foodName!=''">
+            and foodName like '%${hs.foodName}%'
+        </if>-->
+
+      LIMIT  #{start},#{pageSize}
+
+    </select>
+</mapper>
