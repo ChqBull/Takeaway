@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jk.mapper.yfz.UohaMapper">
+<!--财务信息分页+条查-->
+    <select id="findUohaPage" parameterType="map" resultType="com.jk.bean.UohaBean">
+    select o.orderNum,st.storeName,o.orderStartTime,tu.realName,ad.address,ho.horsemanName,o.orderMoney from t_order o,t_user tu,address ad,store st ,
+    horseman ho ,t_o_h th
+    where o.address_id = ad.id and o.user_id = tu.id and o.store_id = st.id and o.orderNum = th.orderNum and th.horseman_id = ho.id
+    <include refid="UohaWhere"></include>
+    limit #{start},#{rows}
+    </select>
+    <sql id="UohaWhere">
+        <!-- 日期区间 -->
+        <if test="uohaBean.startTime !=null">
+            and o.orderStartTime >= #{uohaBean.startTime}
+        </if>
+        <if test="uohaBean.endTime !=null">
+            and o.orderStartTime &lt;= #{uohaBean.endTime}
+        </if>
+    </sql>
+    <select id="getWithdrawalRecordsIop" resultType="com.jk.bean.UohaBean" parameterType="int">
+    select o.orderNum ,st.storeName,o.orderStartTime,tu.realName,ad.address,ho.horsemanName,o.orderMoney from t_order o,t_user tu,address ad,store st ,
+    horseman ho ,t_o_h th
+    where o.address_id = ad.id and o.user_id = tu.id and o.store_id = st.id and o.orderNum = th.orderNum and th.horseman_id = ho.id and
+    DATE_SUB(CURDATE(),INTERVAL 30 DAY) &lt;= date(orderStartTime)
+    </select>
+</mapper>
