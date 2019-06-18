@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>财务查询</title>
+    <!-- 引入bootstrap的css -->
+    <link  href="/js/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- 引入bootstrap-treeview的css -->
+    <link  href="/js/treeview/bootstrap-treeview.min.css" rel="stylesheet" />
+    <!-- 引入bootstrap-addTabs的css -->
+    <link  href="/js/addTabs/addTabs.css" rel="stylesheet" />
+    <!-- 引入bootstrap-table的css -->
+    <link  href="/js/table/bootstrap-table.min.css" rel="stylesheet"/>
+    <!-- 引入fileinput的css -->
+    <link type="text/css" rel="stylesheet" href="/js/fileinput/css/fileinput.min.css" />
+    <!-- 引入jquery -->
+
+    <script src="/js/jquery-1.8.0.js"></script>
+    <!-- 引入my97 -->
+    <script type="text/javascript" src="/js/my97/WdatePicker.js"></script>
+    <!-- 引入bootstrap的js-->
+    <script type="text/javascript" src="/js/bootstrap/js/bootstrap.min.js"></script>
+    <!-- 引入bootstrap的js-->
+    <script type="text/javascript" src="/js/treeview/bootstrap-treeview.min.js"></script>
+    <!-- 引入bootstrap的js-->
+    <script type="text/javascript" src="/js/addTabs/addTabs.js"></script>
+    <!-- 引入bootstrap-table的js-->
+    <script type="text/javascript" src="/js/table/bootstrap-table.min.js"></script>
+    <script type="text/javascript" src="/js/table/locale/bootstrap-table-zh-CN.min.js"></script>
+    <!-- 引入bootbox.js -->
+    <script type="text/javascript" src="/js/bootbox/bootbox.js"></script>
+    <!-- 引入fileinput的js -->
+    <script type="text/javascript" src="/js/fileinput/js/fileinput.min.js"></script>
+    <!--  引入fileinput的js -->
+    <script type="text/javascript" src="/js/fileinput/js/locales/zh.js"></script>
+    <script type="text/javascript" src="/js/fileinput/themes/fa/theme.js"></script>
+    <script src="/js/bootstrap/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+            <form id="ff">
+                <input class="easyui-textbox" placeholder="订单号"  name = "orderNum" id="orderNum" style="width:100px"/>
+                <button type="button" class="btn btn-SUCCESS" onclick="search()">搜索</button>
+            </form></br>
+                <table id="uohaTable"></table>
+</body>
+<script>
+    function  search() {
+        $("#uohaTable").bootstrapTable("refresh", {
+            "query": {
+                "orderNum":$("#orderNum").val(),
+            }
+        });
+    }
+    /*页面加载*/
+    $(function () {
+        initUoahTable();
+
+    })
+    /*查询*/
+    function initUoahTable() {
+        $("#uohaTable").bootstrapTable({
+            url: 'finddingdan',
+            toolbar: '#toolbar',
+            pagination: true, //是否展示分页
+            pageList: [3, 5, 10, 20, 50],//分页组件
+            pageNumber: 0,
+            pageSize: 3,//默认每页条数
+            //解决条查乱码
+            method: "post",
+            contentType: "application/x-www-form-urlencoded",
+            //传递参数,条件查询,分页传参
+            queryParams: function () {
+                /*var stationName = $("#stationName").val();//图书名条件查询*/
+                return {
+                    //有分页的固定传值
+                    start : this.pageNumber,
+                    pageSize: this.pageSize,
+                    "orderNum":$("#orderNum").val(),
+                    //条查传值
+                   /* stationName: stationName*/
+                }
+            },
+            sidePagination: 'server',
+            columns: [
+                {
+                    field: 'id', title: "Id", formatter: function (value, row, index) {   //格式化  当前单元格内容
+                        return '<input type="checkbox" value='+value+' name="chk"/>';
+                    }
+                },
+                {field: 'orderNum', title: '订单号'},
+                {field: 'storeName', title: '商家店名'},
+                {field: 'storePhone', title: '商家联系电话'},
+                {field: 'realName', title: '用户姓名'},
+                {field: 'userPhone', title: '用户手机号'},
+                {field: 'msg', title: '订单备注'},
+                {field: 'address', title: '收货地址'},
+                {field: 'orderStatus',
+                    formatter:function(value,row,index){
+                       var str="";
+                       if(row.orderStatus==0){
+                           str="没接单";
+                       }
+                        if(row.orderStatus==1){
+                            str="接单";
+                        }
+                        if(row.orderStatus==2){
+                            str="超时";
+                        }
+                    },
+                    title: '订单状态'},
+                {field:'ccc',title:'操作',formatter:function(	value,row,index){
+                        if(row.horseStatus==1){
+                            return '<a href="javascript:updatedaodian(&quot;'+row.id+'&quot;)">到店</a>'
+                        }
+                        if(row.horseStatus==2){
+                            return '<a href="javascript:updatequcan(&quot;'+row.id+'&quot;)">取餐</a>'
+                        }
+                        if(row.horseStatus==3){
+                            return '<a href="javascript:updatesongda(&quot;'+row.id+'&quot;)">送达</a>'
+                        }
+                        if(row.horseStatus==4){
+                            return '送达成功'
+                        }
+
+                    }
+                }
+            ]
+        })
+    }
+    function updatedaodian(id){
+        $.ajax({
+             url:"updatedaodian",
+            type:"post",
+            data:{id:id},
+            success:function () {
+
+                location.reload();
+            }
+      })
+    }
+    function updatequcan(id){
+        $.ajax({
+            url:"updatequcan",
+            type:"post",
+            data:{id:id},
+            success:function () {
+
+                location.reload();
+            }
+        })
+    }
+    function updatesongda(id){
+        $.ajax({
+            url:"updatesongda",
+            type:"post",
+            data:{id:id},
+            success:function () {
+
+                location.reload();
+            }
+        })
+    }
+</script>
+</html>
