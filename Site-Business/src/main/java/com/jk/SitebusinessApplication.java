@@ -5,10 +5,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.netflix.feign.EnableFeignClients;
 
 @SpringBootApplication/*开启入口类*/
 @EnableDiscoveryClient//表明是客户端,可以往注册中心注册
-@EnableEurekaClient
+@EnableFeignClients
 @MapperScan("com.jk.mapper")/*扫描持久层*/
 public class SitebusinessApplication {
 

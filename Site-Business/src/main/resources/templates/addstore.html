@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form id="mongoForm" method="post">
+    <input type="hidden"  th:value="${s?.id}"  name="id" >
+    <div>
+        <label for="storeName">店铺名称</label>
+        <input type="text"  name="storeName"  id="storeName" th:value="${s?.storeName}" placeholder="店铺名称">
+    </div>
+    <div>
+        <label for="storeLinkman">店铺联系人</label>
+        <input type="text"  name="storeLinkman"  id="storeLinkman" th:value="${s?.storeLinkman}" placeholder="店铺联系人">
+    </div>
+    <div>
+        <label for="storeIdCard">联系人身份证</label>
+        <input type="text"  name="storeIdCard"  id="storeIdCard" th:value="${s?.storeIdCard}" placeholder="登陆密码">
+    </div>
+    <div>
+        <label for="storePhone">联系人电话</label>
+        <input type="text"  name="storePhone"  id="storePhone" th:value="${s?.storePhone}" placeholder="联系人电话">
+    </div>
+    <div>
+        <label for="password">登陆密码</label>
+        <input type="text"  name="password"  id="password" th:value="${s?.password}" placeholder="登陆密码">
+    </div>
+
+    <div class="form-group">
+        <label >营业执照</label>
+        <input type="file" name="image" id="g_ImgId" th:value="${s?.businessLicense}"  class="form-control" >
+        <input type="hidden" name="businessLicense" id="goodsImgsrc"   >
+    </div>
+    <div class="form-group">
+        <label >店铺图片</label>
+        <input type="file" name="image" id="g_ImgId1" th:value="${s?.storeImg}"   class="form-control" >
+        <input type="hidden" name="storeImg" id="goodsImgsrc1"   >
+    </div>
+    <div class="form-group">
+        <label for="areaId">地区</label>
+        <select class="form-control" id="areaId" name="area_id">
+            <option value="0">--请选择--</option>
+        </select>
+        <input type="hidden" th:value="${s?.area_id}" id="area">
+    </div>
+</div>
+</form>
+<script type="text/javascript">
+
+
+    $(function (){
+        $.ajax({
+            url:'findArea',
+            type:'post',
+            data:{},
+            dataType:'json',
+            success:function(data){
+                var html='';
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].id == $("#area").val()) {
+                        a='selected="selected"';
+                    }else {
+                        a="";
+                    }
+                    html += '<option value="'+data[i].id+'" '+a+'>'+data[i].areaName+'</option>';
+                }
+                $("#areaId").append(html);
+            }
+        })
+
+        $("#g_ImgId").fileinput({
+            //上传按钮
+            showUpload:true,
+            //移除按钮
+            showRemove : true,
+            //最大上传文件的个数，想要多选文件，input文件域必须加上multiple这个属性
+            // maxFileCount:2,
+            //主样式
+            mainClass: "input-group-lg",
+            //按钮样式
+            browseClass: "btn btn-primary btn-block",
+            //语言设置：中文
+            language : 'zh',
+            //允许预览的文件类型
+            allowedPreviewTypes : [ 'image', 'text' ],
+            //允许选择的文件后缀名
+            allowedFileExtensions : [ 'jpg', 'png', 'gif'],
+            //最大上传文件的大小（KB）
+            maxFileSize : 2000,
+            //是否显示路径文本框
+            showCaption:true,
+            //是否显示预览
+            showPreview:true,
+            //是否显示关闭预览框
+            showClose:false,
+            //是否显示文件选择按钮
+            showBrowse:true,
+            //文件上传的路径，设置可实现拖拽
+            uploadUrl :'imgUpload',
+            validateInitialCount:true,
+            previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+            msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+        });
+        //fileuploaded 上传文件之后的方法
+        $('#g_ImgId').on('fileuploaded', function(event, data, previewId, index) {
+            alert(data.response.imgId);
+            //console.info(data.response.imgId);
+            //图片主键回显到隐藏域
+            $("#goodsImgsrc").val(data.response.imgId);
+        });
+
+        $("#g_ImgId1").fileinput({
+            //上传按钮
+            showUpload:true,
+            //移除按钮
+            showRemove : true,
+            //最大上传文件的个数，想要多选文件，input文件域必须加上multiple这个属性
+            // maxFileCount:2,
+            //主样式
+            mainClass: "input-group-lg",
+            //按钮样式
+            browseClass: "btn btn-primary btn-block",
+            //语言设置：中文
+            language : 'zh',
+            //允许预览的文件类型
+            allowedPreviewTypes : [ 'image', 'text' ],
+            //允许选择的文件后缀名
+            allowedFileExtensions : [ 'jpg', 'png', 'gif'],
+            //最大上传文件的大小（KB）
+            maxFileSize : 2000,
+            //是否显示路径文本框
+            showCaption:true,
+            //是否显示预览
+            showPreview:true,
+            //是否显示关闭预览框
+            showClose:false,
+            //是否显示文件选择按钮
+            showBrowse:true,
+            //文件上传的路径，设置可实现拖拽
+            uploadUrl :'imgUpload',
+            validateInitialCount:true,
+            previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+            msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+        });
+        //fileuploaded 上传文件之后的方法
+        $('#g_ImgId1').on('fileuploaded', function(event, data, previewId, index) {
+            alert(data.response.imgId);
+            //console.info(data.response.imgId);
+            //图片主键回显到隐藏域
+            $("#goodsImgsrc1").val(data.response.imgId);
+        });
+    })
+</script>
+</body>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jk.mapper.gtf.ViewMapper">
+
+    <select id="count" resultType="int">
+        select count(*) from viewpager
+    </select>
+
+    <select id="findViewPageAll" resultType="viewpager">
+        select * from viewpager limit #{start},#{pageSize}
+    </select>
+
+    <insert id="addViewPage">
+        insert into viewpager values(null,#{v.imgUrl})
+    </insert>
+
+    <delete id="delViewPage">
+        delete from viewpager where id=#{id}
+    </delete>
+
+</mapper>
