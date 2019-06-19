@@ -38,6 +38,13 @@
 
 </head>
 <body>
+            <div class="form-group">
+                <label for="WorkId">上班状态</label>
+                <select class="form-control" id="WorkId" onchange="applyingWork(this.value)">
+                    <option value="1">下班</option>
+                    <option value="0">上班</option>
+                </select>
+            </div>
             <form id="ff">
                 <input class="easyui-textbox" placeholder="订单号"  name = "orderNum" id="orderNum" style="width:100px"/>
                 <button type="button" class="btn btn-SUCCESS" onclick="search()">搜索</button>
@@ -55,6 +62,7 @@
     /*页面加载*/
     $(function () {
         initUoahTable();
+        initAreaId();
 
     })
     /*查询*/
@@ -62,10 +70,6 @@
         $("#uohaTable").bootstrapTable({
             url: 'finddingdan',
             toolbar: '#toolbar',
-            pagination: true, //是否展示分页
-            pageList: [3, 5, 10, 20, 50],//分页组件
-            pageNumber: 0,
-            pageSize: 3,//默认每页条数
             //解决条查乱码
             method: "post",
             contentType: "application/x-www-form-urlencoded",
@@ -160,6 +164,45 @@
                 location.reload();
             }
         })
+    }
+    //类型
+    function initAreaId(){
+        $.ajax({
+            url:'/workStatus',
+            type:'post',
+            data:{},
+            dataType:'json',
+            success:function(data){
+                $("#WorkId > option[value="+data+"]").prop("selected",true);
+            }
+        })
+    }
+    function applyingWork(sta) {
+        alert(sta)
+        if(sta == 0){
+            $.ajax({
+                url:'/applyingUpWork',
+                type:'post',
+                dataType:'json',
+                success:function(data){
+                    alert("开始接单了")
+                }
+            })
+        }else{
+            $.ajax({
+                url:'',
+                type:'post',
+                dataType:'jsonp',
+                jsonp:'callback',
+                success:function(data){
+                    alert("提交已申请,请耐心等候")
+                },
+                error:function () {
+                    alert("error")
+                }
+            })
+        }
+
     }
 </script>
 </html>

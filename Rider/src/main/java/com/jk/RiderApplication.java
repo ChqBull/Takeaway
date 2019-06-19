@@ -9,7 +9,7 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableFeignClients
-@MapperScan("com.jk.mapper.zc")
+@MapperScan("com.jk.mapper")
 public class RiderApplication {
 
     public static void main(String[] args) {

@@ -23,8 +23,8 @@ public class ZcController {
     }
     @RequestMapping("finddingdan")
     @ResponseBody
-    public HashMap<String,Object> finddingdan(Integer pageSize, Integer start, dingdan hs){
-        HashMap<String, Object> map = zcService.finddingdan(pageSize, start, hs);
+    public HashMap<String,Object> finddingdan(dingdan hs){
+        HashMap<String, Object> map = zcService.finddingdan( hs);
         return map;
     }
 
@@ -44,4 +44,28 @@ public class ZcController {
         zcService.updatesongda(id);
     }
 
+    @RequestMapping("workStatus")
+    @ResponseBody
+    public Integer workStatus(Integer id){
+        Integer i = zcService.workStatus(id);
+        if(i==1 || i == 2){
+            i = 0;
+        }else {
+            i = 1;
+        }
+        return i;
+    }
+    @RequestMapping("applyingUpWork")
+    @ResponseBody
+    public String applyingUpWork(Integer id){
+        zcService.applyingUpWork(id);
+        return null;
+    }
+
+    @RequestMapping("applyingDownWork")
+    @ResponseBody
+    public String applyingDownWork(){
+
+        return null;
+    }
 }
