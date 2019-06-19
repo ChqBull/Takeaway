@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jk.mapper.yfz.OrderMapper">
+    <!--订单状态查询分页 状态写死-->
+    <select id="findOrderPage" parameterType="map" resultType="com.jk.bean.OrderBean">
+      select * from t_order o where o.orderStatus=1 and o.horseStatus=0
+    </select>
+    <!--查询骑手arriveStatus=1写死-->
+    <select id="findHorsemanPage" resultType="com.jk.bean.HorsemanBean">
+    select * from horseman ho where ho.arriveStatus = 1
+    </select>
+    <!--骑手身上的订单数-->
+    <select id="findHorsemanCount" resultType="integer">
+        select count(*) from horseman ho , t_o_h th ,t_order od
+        where od.orderNum = th.orderNum and ho.id = th.horseman_id and ho.arriveStatus = 1 and od.horseStatus  not LIKE (0)
+    </select>
+    <!--新增在线骑手背单数-->
+    <insert id="addOrderHoresman">
+        insert into t_o_h (horseman_id,orderNum)
+        values
+        <foreach collection="split" item="split" separator="," >
+            (#{horesmanId},#{split})
+        </foreach>
+    </insert>
+    <!--修改订单表-1-->
+    <update id="updateZhiPai">
+        update t_order set horseStatus = '1' where orderNum in (${split})
+    </update>
+    <!--查询订单表状态为0的-->
+    <select id="findHorsemanStatus" resultType="com.jk.bean.HorsemanBean">
+        select ho.id,ho.horsemanName,ho.horsemanPhone from horseman ho where ho.arriveStatus = 0
+    </select>
+</mapper>
