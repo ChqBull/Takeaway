@@ -22,17 +22,4 @@ public class PageController {
         return "editActionAgent";
     }
 
-   /* *//*用户登录展示页面*//*
-    @RequestMapping("toFindUserListAndOrderAndThoList")
-    public String toFindUserListAndOrderAndThoList() {
-        return "outList";
-    }
-
-    *//*点击查看详情跳页面*//*
-    @RequestMapping("toFindDetailsList")
-    public String toFindDetails(String orderNum) {
-        return "detailsList";
-    }
-*/
-
-}
+   }

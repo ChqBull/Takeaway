@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jk.mapper.chq.HorsemanMapper">
+    <select id="findBusinessCount" resultType="long">
+        select count(*) from store
+    </select>
+    <select id="findBusiness" resultType="com.jk.bean.StoreBean">
+        select * from store where area_id = '1'
+        <if test="storeBean.storeName != null and storeBean.storeName != ''">
+            and storeName like concat('%',${storeBean.storeName},'%')
+        </if>
+        limit #{page},#{limit}
+    </select>
+</mapper>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jk.mapper.yfz.OutMapper">
+   <!-- 用户登录后页面加载展示-->
+     <select id="findOutPage" resultType="com.jk.bean.OutBean" parameterType="map">
+     select o.orderNum as orderNum,ho.horsemanName as horsemanName,ho.horsemanPhone as horsemanPhone,o.orderMoney as orderMoney,
+     o.orderStartTime as orderStartTime, o.orderEndTime as orderEndTime,o.msg as msg,o.orderStatus,tu.realName as realName,
+     tu.userPhone as userPhone from horseman ho , t_order o ,t_user tu , t_o_h oh where o.user_id = tu.id and oh.horseman_id = ho.id and oh.orderNum = o.orderNum and o.store_id = '2'
+     <include refid="outWhere"></include>
+      limit #{start},#{rows}
+     </select>
+    <!-- 骑手姓名-->
+     <sql id="outWhere">
+       <if test="outBean.horsemanName != null and outBean.horsemanName !=''">
+           and ho.horsemanName like '%${outBean.horsemanName}%'
+       </if>
+         <if test="outBean.userPhone != null and outBean.userPhone !=''">
+             and tu.userPhone = #{outBean.userPhone}
+         </if>
+     </sql>
+    <!--查看详情 分页-->
+     <select id="findTmoPage" resultType="com.jk.bean.TmoBean" parameterType="map">
+         select me.foodName ,om.menuCount,me.price, me.price*om.menuCount as totalprice from t_o_m om , menu me where om.orderNum = '12332423' and om.menu_id = me.id
+     </select>
+     <!--状态,拒绝0-->
+     <update id="upDateJu" parameterType="String">
+    update t_order o set o.orderStatus = 0 where orderNum = #{id}
+     </update>
+     <!--状态,接单1-->
+     <update id="upDateJie" parameterType="String">
+     update t_order o set o.orderStatus = 1 where orderNum = #{id}
+     </update>
+</mapper>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>用户登录展示</title>
+    <link rel="stylesheet" href="/bootstrap/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css"/>
+    <link rel="stylesheet" href="/bootstrap/bootstrap3/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/bootstrap/bootstrap-table/bootstrap-table.css"/>
+    <link rel="stylesheet" href="/bootstrap/bootstrap-fileinput/css/fileinput.css"/>
+    <script src="/bootstrap/easyui1.5/jquery.min.js"></script>
+    <script src="/bootstrap/bootstrap3/js/bootstrap.js"></script>
+    <script src="/bootstrap/bootstrap-table/bootstrap-table.js"></script>
+    <script src="/bootstrap/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
+    <script src="/bootstrap/bootbox/bootbox.all.min.js"></script>
+    <script src="/bootstrap/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+    <script src="/bootstrap/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="/bootstrap/bootstrap-fileinput/js/fileinput.js"></script>
+    <script src="/bootstrap/bootstrap-fileinput/js/locales/zh.js"></script>
+</head>
+<body>
+<form id="pro_from" class="form-inline">
+    <!--骑手姓名-->
+    <div class="form-group">
+        <label for="horsemanName">骑手姓名</label>
+        <input type="text" class="form-control" id="horsemanName">
+    </div>
+    <!--用户手机号-->
+    <div class="form-group">
+        <label for="userPhone">用户手机号</label>
+        <input type="text" class="form-control" id="userPhone">
+    </div>
+    <button type="button" class="btn btn-success" onclick="searchBtn()">搜索</button>
+    <button type="button" class="btn btn-primary" onclick="reset()">重置</button>
+</form>
+
+<table id="outTable"></table>
+</body>
+<script>
+    /*页面加载*/
+    $(function () {
+        initOutTable();
+    })
+    /*绑定搜索按钮*/
+    function searchBtn(){
+        $('#outTable').bootstrapTable('refresh');//更新
+    }
+
+    /*展示*/
+    function initOutTable(){
+        $("#outTable").bootstrapTable({
+            url: '/findUserListAndOrderAndThoList',
+            toolbar: '#toolbar',
+            pagination: true, //是否展示分页
+            pageList: [3, 5, 10, 20, 50],//分页组件
+            pageNumber: 1,
+            pageSize: 3,//默认每页条数
+            //解决条查乱码
+            method: "post",
+            contentType: "application/x-www-form-urlencoded",
+            //传递参数,条件查询,分页传参
+            queryParams: function () {
+                var horsemanName = $("#horsemanName").val();//图书名条件查询
+                var userPhone = $("#userPhone").val();
+                return {
+                    //有分页的固定传值
+                   page: this.pageNumber,
+                    rows: this.pageSize,
+                    //条查传值
+                    horsemanName: horsemanName,
+                    userPhone:userPhone
+                }
+            },
+            sidePagination: 'server',
+            columns: [
+                {
+                    field: 'orderNum', title: "订单号", formatter: function (value, row, index) {   //格式化  当前单元格内容
+                        return '<input type="checkbox" value='+value+' name="chk"/>';
+                    }
+                },
+                {field: 'horsemanName', title: '骑手姓名'},
+                {field: 'horsemanPhone', title: '骑手电话'},
+                {field: 'orderMoney', title: '订单总价'},
+                {field: 'orderStartTime', title: '下单时间'},
+                {field: 'orderEndTime', title: '订单完成时间'},
+                {field: 'realName', title: '用户姓名'},
+                {field: 'userPhone', title: '用户手机号'},
+                {field: 'msg', title: '备注'},
+                {field: 'orderStatus', title: '订单状态',formatter:function (value,row,index) {
+                        return value==0? '拒单' : value==1? '接单' :'';
+                    }},
+                {field:'ccc',title:'操作',formatter:function(value,row,index){
+                        return '<a href="javascript:findDetails (&quot;'+row.orderNum+'&quot;)">查看详情</a>|<a href="javascript:upDateJu (&quot;'+row.orderNum+'&quot;)">拒单</a>|<a href="javascript:updateJie (&quot;'+row.orderNum+'&quot;)">接单</a>'
+                    }
+                }
+            ]
+        })
+    }
+
+    /*接单*/
+    function updateJie(orderNum){
+        $.ajax({
+            url:'/updateJie',
+            type:'post',
+            data:{
+                id:orderNum
+            },
+            dataType:'json',
+            success:function (data) {
+                if(data){
+                    location.href="/toFindUserListAndOrderAndThoList";//刷新
+                }else{
+                    bootbox.alert({
+                        size: "small",
+                        title: "提示",
+                        message: "接单失败",
+                    });
+                }
+            }
+        })
+    }
+
+
+    /*拒单*/
+    function upDateJu(orderNum){
+        $.ajax({
+            url:'/upDateJu',
+            type:'post',
+            data:{
+                id:orderNum
+            },
+            dataType:'json',
+            success:function (data) {
+                if(data){
+                    location.href="/toFindUserListAndOrderAndThoList";//刷新
+                }else{
+                    bootbox.alert({
+                        size: "small",
+                        title: "提示",
+                        message: "拒单失败",
+                    });
+                }
+            }
+        })
+    }
+
+    /*查看详情*/
+    function findDetails(orderNum){
+        location.href="/toFindDetailsList?orderNum="+orderNum;
+    }
+</script>
+</html>
