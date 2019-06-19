@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>骑手登录</title>
+    <!-- 引入bootstrap的css -->
+    <link  href="/bootstrap/js/bootstrap/css/bootstrap.min.css" rel="stylesheet" >
+    <!-- 引入bootstrap-treeview的css -->
+    <link  href="/bootstrap/js/treeview/bootstrap-treeview.min.css" rel="stylesheet" >
+    <!-- 引入bootstrap-addTabs的css -->
+    <link  href="/bootstrap/js/addTabs/addTabs.css" rel="stylesheet" >
+    <!-- 引入bootstrap-table的css -->
+    <link  href="/bootstrap/js/table/bootstrap-table.min.css" rel="stylesheet" >
+    <!-- 引入fileinput的css -->
+    <link type="text/css" rel="stylesheet" href="/bootstrap/js/fileinput/css/fileinput.min.css" />
+    <!-- 引入jquery -->
+    <script type="text/javascript" src="/bootstrap/js/jquery.min.js"></script>
+    <!-- 引入my97 -->
+    <script type="text/javascript" src="/bootstrap/js/my97/WdatePicker.js"></script>
+    <!-- 引入bootstrap的js-->
+    <script type="text/javascript" src="/bootstrap/js/bootstrap/js/bootstrap.min.js"></script>
+    <!-- 引入bootstrap的js-->
+    <script type="text/javascript" src="/bootstrap/js/treeview/bootstrap-treeview.min.js"></script>
+    <!-- 引入bootstrap的js-->
+    <script type="text/javascript" src="/bootstrap/js/addTabs/addTabs.js"></script>
+    <!-- 引入bootstrap-table的js-->
+    <script type="text/javascript" src="/bootstrap/js/table/bootstrap-table.min.js"></script>
+    <script type="text/javascript" src="/bootstrap/js/table/locale/bootstrap-table-zh-CN.min.js"></script>
+    <!-- 引入bootbox.js -->
+    <script type="text/javascript" src="/bootstrap/js/bootbox/bootbox.js"></script>
+    <!-- 引入fileinput的js -->
+    <script type="text/javascript" src="/bootstrap/js/fileinput/js/fileinput.min.js"></script>
+    <!--  引入fileinput的js -->
+    <script type="text/javascript" src="/bootstrap/js/fileinput/js/locales/zh.js"></script>
+    <script type="text/javascript" src="/bootstrap/js/fileinput/themes/fa/theme.js"></script>
+</head>
+<body>
+<div class="form-group">
+    <label for="areaId">下班</label>
+    <select class="form-control" id="areaId" name="area_id">
+    </select>
+</div>
+<table id="HorsemanTable"></table>
+</body>
+<script type="text/javascript">
+    $(function (){
+        $("#HorsemanTable").bootstrapTable({
+            url:"findHorseman",
+            method:"post",
+            striped: true,  	// 斑马线效果     默认false
+            //只允许选中一行
+            singleSelect:true,
+            //选中行是不选中复选框或者单选按钮
+            clickToSelect:true,
+            showToggle:true,                    //是否显示详细视图和列表视图的切换按钮
+            cardView: false,                    //是否显示详细视图
+            uniqueId: "id",                 //每一行的唯一标识，一般为主键列
+            showColumns: true,                  //是否显示所有的列
+            showRefresh: true,                  //是否显示刷新按钮
+            minimumCountColumns: 2,     //  最少留两列
+            detailView: false,                  //是否显示父子表
+            //发送到服务器的数据编码类型
+            contentType:'application/x-www-form-urlencoded;charset=UTF-8',   //数据编码纯文本  offset=0&limit=5
+            toolbar:'#tabToolBar',   //  工具定义位置
+            columns:[[
+                /* field 属性值和 对象的属性名保持一致 */
+                {field:'id',width:100,
+                    formatter:function(value,row,index){   //  格式化  当前单元格内容
+                        return "<input type='checkbox' value="+value+" name='chk'/>";
+                    }
+                },
+                {field:'id',title:'ID',width:$(this).width() * 0.1},
+                {field:'goodsName',title:'商品名称',width:$(this).width() * 0.1},
+                {field:'goodsSource',title:'厂家',width:$(this).width() * 0.1},
+                {field:'goodsPhone',title:'联系电话',width:$(this).width() * 0.1},
+                {field:'goodsCount',title:'库存',width:$(this).width() * 0.1},
+                {field:'goodsDate',title:'生产日期',width:$(this).width() * 0.1},
+                {field:'goodsImg',title:'图片',width:100,
+                    formatter: function (value,row,index){
+                        return "<img  width='80' height='80'  src='<%=path%>/goods/findImgById.do?spicyImg="+value+"' />" ;
+                    }
+                },
+                {field:'xxxx',title:'操作',formatter: function(value,row,index){
+                        var content = "<a href='javascript:deleteAll(&quot;"+row.eventId+"&quot;)'>删除</a>";
+                        content += " <a href='javascript:queryById(&quot;"+row.eventId+"&quot;)'>更改</a>";
+                        return content;
+                    },width:$(this).width() * 0.2}
+            ]],
+            //传递参数（*）
+            queryParams: function(params) {
+                var whereParams = {
+                    /*
+                        分页  自定义的参数         默认传 limit（展示几条）    offset（从第几条开始    起始条数）
+                    */
+                    "pageSize":params.limit,
+                    "start":params.offset,
+                }
+                return whereParams;
+            },
+            //前台--排序字段
+            //sortName:'proPrice',
+            //sortOrder:'desc',
+            //前台--搜索框
+            search:true,
+            //启动回车键做搜索功能
+            searchOnEnterKey:true,
+            //分页方式   后台请求的分页方式
+            sidePagination:'server',
+            pagination: true,                   //是否显示分页（*）
+            pageNum: 1,                       //每页的记录行数（*）
+            pageSize: 3,                       //每页的记录行数（*）
+            pageList: [3, 6, 9,12],        //可供选择的每页的行数（*）
+        });
+    })
+    function  search(){
+        $("#bootTab").bootstrapTable("refresh",{
+            "query":{
+                "expNo":$("#expNo").val(),
+            }
+        });
+    }
+    function editTable(){
+        var chk=$("[name='chk']:checked");
+        alert(chk[0].value);
+        if(chk&&chk.length==1){
+            dialog("<%=path%>/goods/findBootDialog.do?id="+chk[0].value,"<%=path%>/goods/saveOrUpdate.do","修改");
+        }else{
+            alert("请选择一个修改");
+        }
+    }
+    function editTable2(){
+        dialog("<%=path%>/goods/findBootDialog.do","<%=path%>/goods/saveOrUpdate.do","新增");
+    }
+    /*
+    *发送ajax请求获取jsp页面内容
+    */
+    function getJspHtml(urlStr){
+        var  jspHtml = "";
+//	 async  (默认: true) 默认设置下，所有请求均为异步请求。如果需要发送同步请求，请将此选项设置为 false。
+//注意，同步请求将锁住浏览器，用户其它操作必须等待请求完成才可以执行。
+        $.ajax({
+            url:urlStr,
+            type:'post',
+            //同步的ajax
+            async:false,
+            success:function(data){
+                //alert(data);//data--addProduct.jsp页面内容
+                jspHtml = data;
+            },
+            error:function(){
+                bootbox.alert("ajax失败");
+            }
+        });
+        return jspHtml;
+    }
+
+    function  dialog(HTMLurl,submitUrl,title){
+
+        var dialog = bootbox.dialog({
+            title: title,
+            message: getJspHtml(HTMLurl),   //调用方法
+            buttons:{
+                "save":{
+                    label: '保存',
+                    //自定义样式
+                    className: "btn-success",
+                    callback: function() {
+                        $.ajax({
+                            url:submitUrl,
+                            type:'post',
+                            data:$("#mongoForm").serialize(),
+                            success:function(data){
+                                bootbox.alert("保存成功");
+                                $("#bootTab").bootstrapTable('refresh');
+                            },
+                            error:function(){
+                                bootbox.alert("ajax失败");
+                            }
+                        });
+                    }
+                },
+                "unSave":{
+                    label: '取消',
+                    //自定义样式
+                    className: "btn-info",
+                    callback: function() {
+                        // return false;  //dialog不关闭
+                    }
+                }
+            }
+        });
+    }
+</script>
+</html>
