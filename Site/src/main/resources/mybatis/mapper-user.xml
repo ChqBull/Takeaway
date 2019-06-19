@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jk.mapper.UserMapper">
+<mapper namespace="com.jk.mapper.syg.UserMapper">
 
     <select id="findById"  resultType="com.jk.bean.UserBean">
    SELECT u.id, u.name, u.password,

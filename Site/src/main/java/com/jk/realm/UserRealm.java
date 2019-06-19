@@ -3,7 +3,7 @@ package com.jk.realm;
 import com.jk.bean.PermissionBean;
 import com.jk.bean.RoleBean;
 import com.jk.bean.UserBean;
-import com.jk.service.UserService;
+import com.jk.service.syg.UserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;

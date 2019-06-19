@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <title>登陆页面</title>
     <meta charset=utf-8"utf-8">
@@ -82,7 +82,7 @@
                 data:form,
                 success:function(data){
                     if(data=="2"){
-                        location.href="/siteManager"
+                        location.href="/toFindUohaList"
                     }else if(data=="1"){
                         ew; $.flavr("用户不存在！");
                     }else if(data=="3"){

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>财务查询</title>
+    <link rel="stylesheet" href="/bootstrap/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css"/>
+    <link rel="stylesheet" href="/bootstrap/bootstrap3/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/bootstrap/bootstrap-table/bootstrap-table.css"/>
+    <link rel="stylesheet" href="/bootstrap/bootstrap-fileinput/css/fileinput.css"/>
+    <script src="/bootstrap/easyui1.5/jquery.min.js"></script>
+    <script src="/bootstrap/bootstrap3/js/bootstrap.js"></script>
+    <script src="/bootstrap/bootstrap-table/bootstrap-table.js"></script>
+    <script src="/bootstrap/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
+    <script src="/bootstrap/bootbox/bootbox.all.min.js"></script>
+    <script src="/bootstrap/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+    <script src="/bootstrap/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="/bootstrap/bootstrap-fileinput/js/fileinput.js"></script>
+    <script src="/bootstrap/bootstrap-fileinput/js/locales/zh.js"></script>
+    <script src="/js/my97/WdatePicker.js"></script>
+</head>
+<body>
+<!--  条件查询的 form  表单  -->
+<!-- 表单 -->
+<form id="pro_from" class="form-inline">
+    <div class="form-group">
+        <label for="exampleInputFile">下单时间</label>
+        <input class="form-control " id="minTime" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'maxTime\')}'})" />至
+        <input  class="form-control " id="maxTime" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'minTime\')}'})" /><br/>
+    </div>
+    <button type="button" class="btn btn-success" onclick="searchBtn()">搜索</button>
+    <button type="button" class="btn btn-primary" onclick="reset()">重置</button>
+</form>
+<button type="button" class="btn btn-primary btn-lg" onclick="excel()">导出excel表格</button>
+<!--查询展示 -->
+<table id="uohaTable"></table>
+</body>
+<script>
+    /*页面加载*/
+    $(function () {
+        initUoahTable();
+    })
+
+    /*导出excel表格*/
+    function excel(){
+        location.href="/ExcelDownloadsPoi";
+    }
+
+    /*绑定搜索按钮*/
+    function searchBtn() {
+        $('#uohaTable').bootstrapTable('refresh');//更新
+    }
+
+    /*查询*/
+    function initUoahTable() {
+        $("#uohaTable").bootstrapTable({
+            url: '/findUohaList',
+            toolbar: '#toolbar',
+            pagination: true, //是否展示分页
+            pageList: [3, 5, 10, 20, 50],//分页组件
+            pageNumber: 1,
+            pageSize: 3,//默认每页条数
+            //解决条查乱码
+            method: "post",
+            contentType: "application/x-www-form-urlencoded",
+            //传递参数,条件查询,分页传参
+            queryParams: function () {
+                var startTime = $('#minTime').val();
+                alert(startTime)
+                var endTime = $('#maxTime').val();
+                return {
+                    //有分页的固定传值
+                    page: this.pageNumber,
+                    rows: this.pageSize,
+                    //条查传值
+                    startTime:startTime,//日期区间
+                    endTime:endTime,//日期区间
+                }
+            },
+            sidePagination: 'server',
+            columns: [
+                {
+                    field: 'id', title: "Id", formatter: function (value, row, index) {   //格式化  当前单元格内容
+                        return '<input type="checkbox" value='+value+' name="chk"/>';
+                    }
+                },
+                {field: 'orderNum', title: '订单号'},
+                {field: 'realName', title: '用户名'},
+                {field: 'storeName', title: '商家店名'},
+                {field: 'orderMoney', title: '订单总价'},
+                {field: 'orderStartTime', title: '下单时间'},
+                {field: 'horsemanName', title: '骑手姓名'},
+                {field: 'address', title: '收货地址'},
+                /*{field:'ccc',title:'操作',formatter:function(	value,row,index){
+                        return '<a href="javascript:del(&quot;'+row.id+'&quot;)">删除</a>'
+                    }
+                }*/
+            ]
+        })
+    }
+    /*删除*/
+   /* function del(id){
+        bootbox.confirm({
+            size: "small",
+            message: "确定删除吗?",
+            callback: function(result){
+                if(result){
+                    $.ajax({
+                        url:'/deleteUoha',
+                        type:'post',
+                        data:{
+                            id:id,
+                        },
+                        dataType:'json',
+                        success:function(data){
+                            if(data){
+                                location.href="/toFindUohaList";//刷新
+                            }else{
+                                bootbox.alert({
+                                    size: "small",
+                                    title: "提示",
+                                    message: "删除失败",
+                                });
+                            }
+                        }
+                    })
+                }
+            }
+        })
+    }*/
+</script>
+</html>
