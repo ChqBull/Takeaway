@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jk.mapper.zc.ZcMappers">
+<select id="finddingdan" resultType="dingdan">
+SELECT  o.horseStatus,o.id,o.orderNum as orderNum,st.storeName as storeName,st.storePhone as storePhone ,tu.realName as realName,
+        tu.userPhone as userPhone,o.msg as msg,ad.address as address,o.orderStatus
+        from t_order o , t_user tu , t_o_h oh , store st ,address ad
+        where o.user_id = tu.id and oh.orderNum =o.orderNum and st.id = o.store_id and o.address_id = ad.id and oh.horseman_id = '1'
+
+        and  o.orderNum like '%${c.orderNum}%'
+
+
+       LIMIT  #{start},#{pageSize}
+</select>
+
+    <select id="finddingdancount"  resultType="long">
+        SELECT count(*)
+        from t_order o , t_user tu , t_o_h oh , store st ,address ad
+        where o.user_id = tu.id and oh.orderNum =o.orderNum and st.id = o.store_id and o.address_id = ad.id and oh.horseman_id = '1'
+         LIMIT #{start},#{pageSize}
+
+    </select>
+</mapper>
