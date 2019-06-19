@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form id="mongoForm" method="post">
+
+    <div>
+        <label for="foodName">菜单名称</label>
+        <input type="text"  name="foodName"  id="foodName"  placeholder="菜单名称">
+    </div>
+    <div class="form-group">
+        <label >菜单照片</label>
+        <input type="file" name="image" id="g_ImgId"   class="form-control" >
+        <input type="hidden" name="foodImg" id="goodsImgsrc"   >
+    </div>
+    <div>
+        <label for="price">价格</label>
+        <input type="text"  name="price"  id="price"  placeholder="价格">
+    </div>
+    <div class="form-group">
+        <label for="type_id">类型</label>
+        <select class="form-control" id="type_id" name="type_id">
+            <option value="0">--请选择--</option>
+        </select>
+    </div>
+</div>
+</form>
+<script type="text/javascript">
+
+
+    $(function (){
+        $.ajax({
+            url:'findMenuType',
+            type:'post',
+            data:{},
+            dataType:'json',
+            success:function(data){
+                var html='';
+                for (var i = 0; i < data.length; i++) {
+                    html += '<option value="'+data[i].id+'">'+data[i].menuType+'</option>';
+                }
+                $("#type_id").append(html);
+            }
+        })
+
+        $("#g_ImgId").fileinput({
+            //上传按钮
+            showUpload:true,
+            //移除按钮
+            showRemove : true,
+            //最大上传文件的个数，想要多选文件，input文件域必须加上multiple这个属性
+            // maxFileCount:2,
+            //主样式
+            mainClass: "input-group-lg",
+            //按钮样式
+            browseClass: "btn btn-primary btn-block",
+            //语言设置：中文
+            language : 'zh',
+            //允许预览的文件类型
+            allowedPreviewTypes : [ 'image', 'text' ],
+            //允许选择的文件后缀名
+            allowedFileExtensions : [ 'jpg', 'png', 'gif'],
+            //最大上传文件的大小（KB）
+            maxFileSize : 2000,
+            //是否显示路径文本框
+            showCaption:true,
+            //是否显示预览
+            showPreview:true,
+            //是否显示关闭预览框
+            showClose:false,
+            //是否显示文件选择按钮
+            showBrowse:true,
+            //文件上传的路径，设置可实现拖拽
+            uploadUrl :'imgUpload',
+            validateInitialCount:true,
+            previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+            msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+        });
+        //fileuploaded 上传文件之后的方法
+        $('#g_ImgId').on('fileuploaded', function(event, data, previewId, index) {
+            alert(data.response.imgId);
+            //console.info(data.response.imgId);
+            //图片主键回显到隐藏域
+            $("#goodsImgsrc").val(data.response.imgId);
+        });
+
+    })
+</script>
+</body>

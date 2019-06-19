@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>商家管理</title>
     <!-- 引入bootstrap的css -->
     <link  href="/js/bootstrap/css/bootstrap.min.css" rel="stylesheet" >
     <!-- 引入bootstrap-treeview的css -->
@@ -15,7 +14,7 @@
     <!-- 引入fileinput的css -->
     <link type="text/css" rel="stylesheet" href="/js/fileinput/css/fileinput.min.css" />
     <!-- 引入jquery -->
-    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
     <!-- 引入my97 -->
     <script type="text/javascript" src="/js/my97/WdatePicker.js"></script>
     <!-- 引入bootstrap的js-->
@@ -35,33 +34,29 @@
     <script type="text/javascript" src="/js/fileinput/js/locales/zh.js"></script>
     <script type="text/javascript" src="/js/fileinput/themes/fa/theme.js"></script>
 
+
 </head>
-<body>
-<!--  条件查询的 form  表单  -->
-<!-- 表单 -->
-<form id="pro_from" class="form-inline">
-    <br class="form-group">
-        <label>状态</label>
-        <select  id="proType" class="form-control">
-            <option value="0" selected>请选择</option>
-            <option value="1">通过</option>
-            <option value="2">未审核</option>
-            <option value="3">拒绝</option>
-        </select>
-       标题： <input type="text" name="title" id="titleid"></br>
+<html>
+<br>
+<body id="pro_from" class="form-inline">
+    <div class="form-group">
+        <label for="storeName">店铺名称：&nbsp;&nbsp;&nbsp;&nbsp;</label>
+        <input type="text" class="form-control" id="storeName" placeholder="店铺名称">
+        <button type="button" class="btn btn-success" onclick="search()">搜索</button>
+        <button type="button" class="btn btn-primary" onclick="reset()">重置</button>
     </div>
-    <br>
-    <button type="button" class="btn btn-success" onclick="search()">搜索</button>
-    <button type="button" class="btn btn-primary" onclick="reset()">重置</button>
-</form>
-<button type="button" class="btn btn-info btn-lg" onclick="editTable()">编辑</button>
-<button type="button" class="btn btn-info btn-lg" onclick="deleteAll()">批量删除</button>
-<table id="bootTab"></table>
+    <br><br>
+
+<button type="button" class="btn btn-success" onclick="editTable()">店铺申请</button>
+    <button type="button" class="btn btn-primary" onclick="findMenu()">查看菜单</button>
+    <button type="button" class="btn btn-primary" onclick="add()">添加菜单</button>
+<!--</form>-->
+<table id="bootTab" ></table>
 </body>
 <script type="text/javascript">
-    $(function (){
+    $(function(){
         $("#bootTab").bootstrapTable({
-            url:"findZhaoBiao",
+            url:"findStoreAll",
             method:"post",
             striped: true,  	// 斑马线效果     默认false
             //只允许选中一行
@@ -70,7 +65,7 @@
             clickToSelect:true,
             showToggle:true,                    //是否显示详细视图和列表视图的切换按钮
             cardView: false,                    //是否显示详细视图
-            uniqueId: "newsId",                 //每一行的唯一标识，一般为主键列
+            uniqueId: "id",                 //每一行的唯一标识，一般为主键列
             showColumns: true,                  //是否显示所有的列
             showRefresh: true,                  //是否显示刷新按钮
             minimumCountColumns: 2,     //  最少留两列
@@ -79,48 +74,32 @@
             contentType:'application/x-www-form-urlencoded;charset=UTF-8',   //数据编码纯文本  offset=0&limit=5
             toolbar:'#tabToolBar',   //  工具定义位置
             columns:[
-                {field:'zid',width:100,
+                {field:'xxx',title:"全选",width:$(this).width*0.1,align: 'center',valign:"middle",
                     formatter:function(value,row,index){   //  格式化  当前单元格内容
-                        return "<input type='checkbox' value="+value+" name='chk'/>";
+                        return "<input type='checkbox' value="+row.id+" name='chk'/>";
                     }
                 },
-                {field:'title',title:'标题',width:100},
-                {field:'zbtype',title:'类型',width:100},      //  列    field   代表是 后台  传过来的值
-                {field:'hangye',title:'行业',width:100},
-                {field:'startDate',title:'开始时间',width:100},
-                {field:'endDate',title:'结束时间',width:100},
-                {field:'zhuangtai',title:'状态',width:100,
-                    formatter: function (value,row,index){
-                        var str="";
-                        if(value ==1){
-                            str = "通过";
-                        } if(value ==2){
-                            str = "未审核";
-                        } if(value ==3){
-                            str = "拒绝";
-                        }
-                        return str;
+                // {field:'id',title:'ID',width:$(this).width*0.1,valign:"middle"},     //  列    field   代表是 后台  传过来的值
+                {field : 'Number',title : '序号',align: 'center',valign:"middle",width: $(this).width*0.1,formatter : function(value, row, index) {
+                        //return index + 1;
+                        var pageSize=$('#bootTab').bootstrapTable('getOptions').pageSize;//通过表的#id 可以得到每页多少条
+                        var pageNumber=$('#bootTab').bootstrapTable('getOptions').pageNumber;//通过表的#id 可以得到当前第几页
+                        return pageSize * (pageNumber - 1) + index + 1;//返回每条的序号： 每页条数 * （当前页 - 1 ）+ 序号
+                    }
+                 },
+                {field:'storeName',title:'店铺名称',width:$(this).width*0.1,align: 'center',valign:"middle"},
+                {field:'storeLinkman',title:'店铺联系人',width:$(this).width*0.1,align: 'center',valign:"middle"},
+                {field:'storePhone',title:'联系人电话',width:$(this).width*0.1,align: 'center',valign:"middle"},
+                {field:'storeIdCard',title:'联系人身份证',width:$(this).width*0.1,align: 'center',valign:"middle"},
+                {field:'businessLicense',title : '营业执照',align: 'center',formatter : function(value,row,index) {
+                        return "<img  width='160' height='80'  src="+row.businessLicense+" />"
                     }},
-                {field:'dianji',title:'点击量',width:100},
-                {field:'luruDate',title:'录入时间',width:100}
-               /* {field:'xxxx',title:'操作',formatter: function(value,row,index){
-                        var content = "<a href='javascript:update(&quot;"+row.zid+"&quot;)'>修改</a>";
-                        return content;
-                    },width:$(this).width() * 0.2}*/
+                {field : 'storeImg',title : '店面照片',align: 'center',formatter : function(value,row,index) {
+                        return "<img  width='160' height='80'  src="+row.storeImg+" />"
+                    }},
+                {field:'areaName',title:'所属区域',width:$(this).width*0.1,align: 'center',valign:"middle"},
+                {field:'crud',title:' 操作',align: 'center',width:$(this).width*0.2,/*events:operateEvents,*/formatter:AddFunctionAlty,valign:"middle" },
             ],
-            //前台--排序字段
-            //sortName:'proPrice',
-            //sortOrder:'desc',
-            //前台--搜索框
-            //search:true,
-            //启动回车键做搜索功能
-            searchOnEnterKey:true,
-            //分页方式   后台请求的分页方式
-            sidePagination:'server',
-            pagination: true,                  //是否显示分页（*）
-            pageNum: 1,                       //每页的记录行数（*）
-            pageSize: 3,                       //每页的记录行数（*）
-            pageList: [1,3, 6, 9,12],        //可供选择的每页的行数（*）
             //传递参数（*）
             queryParams: function(params) {
                 var whereParams = {
@@ -129,57 +108,92 @@
                     */
                     "pageSize":params.limit,
                     "start":params.offset,
-
+                    "storeName":$("#storeName").val(),
                 }
                 return whereParams;
             },
+            //前台--排序字段
+            //sortName:'proPrice',
+            //sortOrder:'desc',
+            //前台--搜索框
+            // search:true,
+            //启动回车键做搜索功能
+            //searchOnEnterKey:true,
+            //分页方式   后台请求的分页方式
+            sidePagination:'server',
+            pagination: true,                   //是否显示分页（*）
+            pageNum: 1,                       //每页的记录行数（*）
+            pageSize: 3,                       //每页的记录行数（*）
+            pageList: [3, 6, 9,12],        //可供选择的每页的行数（*）
         });
     })
+    function AddFunctionAlty(value,row,index){
+        if(row.status==1){
+        }else {
+        }
+        return[
+            '<button type="button" class="btn btn-default" onclick="editTable1('+row.id+')">修改</button> &nbsp;',
+            '<button type="button" class="btn btn-default" onclick="editTable2('+row.id+')">关店</button>',
+        ].join("")
+    }
 
     function  search(){
         $("#bootTab").bootstrapTable("refresh",{
             "query":{
-                "zbtype":$("#proType").val(),
-                 "title":$("#titleid").val(),
+                "storeName":$("#storeName").val(),
             }
         });
 
     }
-
-    function editTable(){
-        var chk=$("input[name='chk']:checked");
-
-        if(chk&&chk.length==1){
-            dialog("findBootDialogById?zid="+chk[0].value,"saveMongo","修改");
-
-        }
-        else if(chk.length==0){
-            dialog("findBootDialogById","saveMongo","新增");
-
+    function reset() {
+        $("#storeName").val("");
+    }
+    function findMenu() {
+        var a= [];
+        $("input[name='chk']:checked").each(function (i) {
+            a.push($(this).val());
+        })
+        if(a.length!=1){
+            alert("请选择一家店铺")
+        }else{
+            location.href="menupage?id="+a;
         }
     }
 
-    function deleteAll(){
-        var chk=$("input[name='chk']:checked");
-        var id="";
-        if(chk&&chk.length>0){
-            for (var i = 0; i < chk.length; i++) {
-                id +=chk[i].value+"," ;
-            }
-            if(confirm("您确定要删除这些数据吗？")){
-                $.ajax({
-                    url:"deleteAll?zid="+id,
-                    type:"post",
-                    success:function(){
-
-                        $("#bootTab").bootstrapTable('refresh');
-                    },error:function(){
-                    }
-                });
-            }
+    function add() {
+        var a= [];
+        $("input[name='chk']:checked").each(function (i) {
+            a.push($(this).val());
+        })
+        if(a.length!=1){
+            alert("请选择一家店铺")
         }else{
-            alert("请选择删除对象");
+            dialog("toAddMenu","addMenuByStore?store_id="+a,"添加菜单");
         }
+    }
+
+    function editTable(){
+        dialog("toAddstore","addstore","店铺申请");
+    }
+    function editTable1(id){
+        dialog("toAddstore?id="+id,"updstore","修改店铺");
+    }
+    function editTable2(id){
+        if(confirm("确定关店吗？")){
+            $.post('delStore',{id:id},function (data) {
+                $("#bootTab").bootstrapTable('refresh');
+            })
+        }
+    }
+    function deletedata(id){
+        $.ajax({
+            url:"delViewPage",
+            type:"post",
+            data:{id:id},
+            success:function(data){
+                $("#bootTab").bootstrapTable('refresh');
+            }
+        })
     }
 
     /*
@@ -206,7 +220,6 @@
     }
 
     function  dialog(HTMLurl,submitUrl,title){
-
         var dialog = bootbox.dialog({
             title: title,
             message: getJspHtml(HTMLurl),   //调用方法
@@ -222,9 +235,7 @@
                             data:$("#mongoForm").serialize(),
                             success:function(data){
                                 bootbox.alert("保存成功");
-
                                 $("#bootTab").bootstrapTable('refresh');
-                                location.reload();
                             },
                             error:function(){
                                 bootbox.alert("ajax失败");
@@ -243,6 +254,8 @@
             }
         });
     }
+
+
 
 
 </script>

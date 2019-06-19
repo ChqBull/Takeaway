@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jk.mapper.gtf.StoreMapper">
+
+    <select id="count" resultType="int">
+        select count(*) from store s,area a where s.area_id=a.id and s.shenhe=2 and s.isdelete=0
+        <if test="store.storeName!=null and store.storeName!=''">
+            and storeName like CONCAT(CONCAT('%',#{store.storeName}),'%')
+        </if>
+    </select>
+
+    <select id="findStoreAll" resultType="store">
+        select * from store s,area a where s.area_id=a.id and s.shenhe=2 and s.isdelete=0
+        <if test="store.storeName!=null and store.storeName!=''">
+            and storeName like CONCAT(CONCAT('%',#{store.storeName}),'%')
+        </if>
+        limit #{start},#{pageSize}
+    </select>
+
+    <select id="findStoreById" resultType="store">
+        select * from store where id=#{store.id}
+    </select>
+
+    <select id="findArea" resultType="area">
+        select * from area
+    </select>
+
+    <insert id="addstore">
+        insert into store(storeName,storeLinkman,storePhone,password,storeIdCard,businessLicense,storeImg,shenhe,area_id)
+        values(#{store.storeName},#{store.storeLinkman},#{store.storePhone}
+        ,#{store.password},#{store.storeIdCard},#{store.businessLicense},#{store.storeImg},#{store.shenhe}
+        ,#{store.area_id})
+    </insert>
+
+    <update id="updstore">
+        update store set storeName=#{store.storeName},
+            storeLinkman=#{store.storeLinkman},
+            storePhone=#{store.storePhone},
+            password=#{store.password},
+            storeIdCard=#{store.storeIdCard},
+            businessLicense=#{store.businessLicense},
+            storeImg=#{store.storeImg},
+            shenhe=#{store.shenhe},
+            area_id=#{store.area_id}
+        where id=#{store.id}
+    </update>
+
+    <update id="delStore">
+        update store set isdelete=1 where id=#{store.id}
+    </update>
+
+</mapper>

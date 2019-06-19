@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jk.mapper.gtf.MenuMapper">
+
+    <select id="count" resultType="int">
+        select count(*) from menu m,menu_type mt,store s
+        where m.type_id=mt.id and m.store_id=s.id and m.shenhe=2
+        <if test="m.store_id!=null and m.store_id!=''">
+            and m.store_id=#{m.store_id}
+        </if>
+    </select>
+
+    <select id="findMenuAll" resultType="menu">
+        select * from menu m,menu_type mt,store s
+        where m.type_id=mt.id and m.store_id=s.id
+        and m.shenhe=2
+        <if test="m.store_id!=null and m.store_id!=''">
+            and m.store_id=#{m.store_id}
+        </if>
+        limit #{start},#{pageSize}
+    </select>
+
+    <select id="findMenuType" resultType="menuType">
+        select * from menu_type
+    </select>
+
+    <insert id="addMenuByStore">
+        insert into menu(foodName,foodImg,price,type_id,store_id,shenhe)
+        values(#{m.foodName},#{m.foodImg},#{m.price},#{m.type_id},#{m.store_id},#{m.shenhe})
+    </insert>
+
+    <delete id="delMenu">
+        delete from menu where id=#{m.id}
+    </delete>
+
+    <select id="findStore" resultType="store">
+        select id,storeName from store
+    </select>
+
+</mapper>
