@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jk.syg.mapper.UserMapper">
+    <!--判断该手机号是否注册过-->
+    <select id="findUserByPhone" parameterType="string" resultType="com.jk.syg.bean.UserBean">
+        select * from t_user where userPhone = #{0}
+    </select>
+    <!--注册  -->
+    <insert id="saveOneUser" parameterType="com.jk.syg.bean.UserBean">
+      insert into t_user(userPhone,password)
+      values(#{phoneNumber},#{password})
+    </insert>
+
+
+
+</mapper>
