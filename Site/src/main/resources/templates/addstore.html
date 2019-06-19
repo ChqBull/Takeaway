@@ -30,13 +30,13 @@
 
     <div class="form-group">
         <label >营业执照</label>
-        <input type="file" name="image" id="g_ImgId" th:value="${s?.businessLicense}"  class="form-control" >
-        <input type="hidden" name="businessLicense" id="goodsImgsrc"   >
+        <input type="file" name="image" id="g_ImgId"  class="form-control" >
+        <input type="hidden" name="businessLicense" th:value="${s?.businessLicense}"  id="goodsImgsrc"   >
     </div>
     <div class="form-group">
         <label >店铺图片</label>
-        <input type="file" name="image" id="g_ImgId1" th:value="${s?.storeImg}"   class="form-control" >
-        <input type="hidden" name="storeImg" id="goodsImgsrc1"   >
+        <input type="file" name="image" id="g_ImgId1"    class="form-control" >
+        <input type="hidden" name="storeImg" th:value="${s?.storeImg}"  id="goodsImgsrc1"   >
     </div>
     <div class="form-group">
         <label for="areaId">地区</label>

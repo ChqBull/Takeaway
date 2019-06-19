@@ -51,4 +51,9 @@ public class StoreServiceImpl implements StoreService {
     public void delStore(Store store) {
         storeMapper.delStore(store);
     }
+
+    @Override
+    public void delStore1(Store store) {
+        storeMapper.delStore1(store);
+    }
 }

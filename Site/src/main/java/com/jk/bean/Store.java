@@ -17,4 +17,5 @@ public class Store {
     private int shenhe;
     private int area_id;
     private String areaName;
+    private int isdelete;
 }

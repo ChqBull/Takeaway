@@ -17,4 +17,6 @@ public interface StoreService {
     void updstore(Store store);
 
     void delStore(Store store);
+
+    void delStore1(Store store);
 }

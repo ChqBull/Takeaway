@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>商家管理</title>
+    <!-- 引入bootstrap的css -->
+    <link  href="/js/bootstrap/css/bootstrap.min.css" rel="stylesheet" >
+    <!-- 引入bootstrap-treeview的css -->
+    <link  href="/js/treeview/bootstrap-treeview.min.css" rel="stylesheet" >
+    <!-- 引入bootstrap-addTabs的css -->
+    <link  href="/js/addTabs/addTabs.css" rel="stylesheet" >
+    <!-- 引入bootstrap-table的css -->
+    <link  href="/js/table/bootstrap-table.min.css" rel="stylesheet" >
+    <!-- 引入fileinput的css -->
+    <link type="text/css" rel="stylesheet" href="/js/fileinput/css/fileinput.min.css" />
+    <!-- 引入jquery -->
+    <script src="/js/jquery.min.js"></script>
+    <!-- 引入my97 -->
+    <script type="text/javascript" src="/js/my97/WdatePicker.js"></script>
+    <!-- 引入bootstrap的js-->
+    <script type="text/javascript" src="/js/bootstrap/js/bootstrap.min.js"></script>
+    <!-- 引入bootstrap的js-->
+    <script type="text/javascript" src="/js/treeview/bootstrap-treeview.min.js"></script>
+    <!-- 引入bootstrap的js-->
+    <script type="text/javascript" src="/js/addTabs/addTabs.js"></script>
+    <!-- 引入bootstrap-table的js-->
+    <script type="text/javascript" src="/js/table/bootstrap-table.min.js"></script>
+    <script type="text/javascript" src="/js/table/locale/bootstrap-table-zh-CN.min.js"></script>
+    <!-- 引入bootbox.js -->
+    <script type="text/javascript" src="/js/bootbox/bootbox.js"></script>
+    <!-- 引入fileinput的js -->
+    <script type="text/javascript" src="/js/fileinput/js/fileinput.min.js"></script>
+    <!--  引入fileinput的js -->
+    <script type="text/javascript" src="/js/fileinput/js/locales/zh.js"></script>
+    <script type="text/javascript" src="/js/fileinput/themes/fa/theme.js"></script>
+
+
+</head>
+<html>
+<br>
+<body id="pro_from" class="form-inline">
+    <div class="form-group">
+        <label for="storeName">店铺名称：&nbsp;&nbsp;&nbsp;&nbsp;</label>
+        <input type="text" class="form-control" id="storeName" placeholder="店铺名称">
+        <button type="button" class="btn btn-success" onclick="search()">搜索</button>
+        <button type="button" class="btn btn-primary" onclick="reset()">重置</button>
+    </div>
+    <br><br>
+
+<button type="button" class="btn btn-success" onclick="editTable()">店铺申请</button>
+    <button type="button" class="btn btn-primary" onclick="findMenu()">查看菜单</button>
+    <button type="button" class="btn btn-primary" onclick="add()">添加菜单</button>
+<!--</form>-->
+<table id="bootTab" ></table>
+</body>
+<script type="text/javascript">
+    $(function(){
+        $("#bootTab").bootstrapTable({
+            url:"findStoreAll",
+            method:"post",
+            striped: true,  	// 斑马线效果     默认false
+            //只允许选中一行
+            singleSelect:true,
+            //选中行是不选中复选框或者单选按钮
+            clickToSelect:true,
+            showToggle:true,                    //是否显示详细视图和列表视图的切换按钮
+            cardView: false,                    //是否显示详细视图
+            uniqueId: "id",                 //每一行的唯一标识，一般为主键列
+            showColumns: true,                  //是否显示所有的列
+            showRefresh: true,                  //是否显示刷新按钮
+            minimumCountColumns: 2,     //  最少留两列
+            detailView: false,                  //是否显示父子表
+            //发送到服务器的数据编码类型
+            contentType:'application/x-www-form-urlencoded;charset=UTF-8',   //数据编码纯文本  offset=0&limit=5
+            toolbar:'#tabToolBar',   //  工具定义位置
+            columns:[
+                {field:'xxx',title:"全选",width:$(this).width*0.1,align: 'center',valign:"middle",
+                    formatter:function(value,row,index){   //  格式化  当前单元格内容
+                        return "<input type='checkbox' value="+row.id+" name='chk'/>";
+                    }
+                },
+                // {field:'id',title:'ID',width:$(this).width*0.1,valign:"middle"},     //  列    field   代表是 后台  传过来的值
+                {field : 'Number',title : '序号',align: 'center',valign:"middle",width: $(this).width*0.1,formatter : function(value, row, index) {
+                        //return index + 1;
+                        var pageSize=$('#bootTab').bootstrapTable('getOptions').pageSize;//通过表的#id 可以得到每页多少条
+                        var pageNumber=$('#bootTab').bootstrapTable('getOptions').pageNumber;//通过表的#id 可以得到当前第几页
+                        return pageSize * (pageNumber - 1) + index + 1;//返回每条的序号： 每页条数 * （当前页 - 1 ）+ 序号
+                    }
+                 },
+                {field:'storeName',title:'店铺名称',width:$(this).width*0.1,align: 'center',valign:"middle"},
+                {field:'storeLinkman',title:'店铺联系人',width:$(this).width*0.1,align: 'center',valign:"middle"},
+                {field:'storePhone',title:'联系人电话',width:$(this).width*0.1,align: 'center',valign:"middle"},
+                {field:'storeIdCard',title:'联系人身份证',width:$(this).width*0.1,align: 'center',valign:"middle"},
+                {field:'businessLicense',title : '营业执照',align: 'center',formatter : function(value,row,index) {
+                        return "<img  width='160' height='80'  src="+row.businessLicense+" />"
+                    }},
+                {field : 'storeImg',title : '店面照片',align: 'center',formatter : function(value,row,index) {
+                        return "<img  width='160' height='80'  src="+row.storeImg+" />"
+                    }},
+                {field:'areaName',title:'所属区域',width:$(this).width*0.1,align: 'center',valign:"middle"},
+                {field:'crud',title:' 操作',align: 'center',width:$(this).width*0.2,/*events:operateEvents,*/formatter:AddFunctionAlty,valign:"middle" },
+            ],
+            //传递参数（*）
+            queryParams: function(params) {
+                var whereParams = {
+                    /*
+                        分页  自定义的参数         默认传 limit（展示几条）    offset（从第几条开始    起始条数）
+                    */
+                    "pageSize":params.limit,
+                    "start":params.offset,
+                    "storeName":$("#storeName").val(),
+                }
+                return whereParams;
+            },
+            //前台--排序字段
+            //sortName:'proPrice',
+            //sortOrder:'desc',
+            //前台--搜索框
+            // search:true,
+            //启动回车键做搜索功能
+            //searchOnEnterKey:true,
+            //分页方式   后台请求的分页方式
+            sidePagination:'server',
+            pagination: true,                   //是否显示分页（*）
+            pageNum: 1,                       //每页的记录行数（*）
+            pageSize: 3,                       //每页的记录行数（*）
+            pageList: [3, 6, 9,12],        //可供选择的每页的行数（*）
+        });
+    })
+    function AddFunctionAlty(value,row,index){
+        if(row.isdelete==1){
+            return[
+                '<button type="button" class="btn btn-default" onclick="editTable1('+row.id+')">修改</button> &nbsp;',
+                '<button type="button" class="btn btn-default" onclick="editTable3('+row.id+')">开店</button>',
+            ].join("")
+        }else {
+            return[
+                '<button type="button" class="btn btn-default" onclick="editTable1('+row.id+')">修改</button> &nbsp;',
+                '<button type="button" class="btn btn-default" onclick="editTable2('+row.id+')">关店</button>',
+            ].join("")
+        }
+
+    }
+
+    function  search(){
+        $("#bootTab").bootstrapTable("refresh",{
+            "query":{
+                "storeName":$("#storeName").val(),
+            }
+        });
+
+    }
+    function reset() {
+        $("#storeName").val("");
+    }
+    function findMenu() {
+        var a= [];
+        $("input[name='chk']:checked").each(function (i) {
+            a.push($(this).val());
+        })
+        if(a.length!=1){
+            alert("请选择一家店铺")
+        }else{
+            location.href="menupage?id="+a;
+        }
+    }
+
+    function add() {
+        var a= [];
+        $("input[name='chk']:checked").each(function (i) {
+            a.push($(this).val());
+        })
+        if(a.length!=1){
+            alert("请选择一家店铺")
+        }else{
+            dialog("toAddMenu","addMenuByStore?store_id="+a,"添加菜单");
+        }
+    }
+
+    function editTable(){
+        dialog("toAddstore","addstore","店铺申请");
+    }
+    function editTable1(id){
+        dialog("toAddstore?id="+id,"updstore","修改店铺");
+    }
+    function editTable2(id){
+        if(confirm("确定关店吗？")){
+            $.post('delStore',{id:id},function (data) {
+                $("#bootTab").bootstrapTable('refresh');
+            })
+        }
+    }
+    function editTable3(id){
+            $.post('delStore1',{id:id},function (data) {
+                $("#bootTab").bootstrapTable('refresh');
+            })
+    }
+    function deletedata(id){
+        $.ajax({
+            url:"delViewPage",
+            type:"post",
+            data:{id:id},
+            success:function(data){
+                $("#bootTab").bootstrapTable('refresh');
+            }
+        })
+    }
+
+    /*
+    *发送ajax请求获取jsp页面内容
+    */
+    function getJspHtml(urlStr){
+        var  jspHtml = "";
+//		 async  (默认: true) 默认设置下，所有请求均为异步请求。如果需要发送同步请求，请将此选项设置为 false。
+        //注意，同步请求将锁住浏览器，用户其它操作必须等待请求完成才可以执行。
+        $.ajax({
+            url:urlStr,
+            type:'post',
+            //同步的ajax
+            async:false,
+            success:function(data){
+                //alert(data);//data--addProduct.jsp页面内容
+                jspHtml = data;
+            },
+            error:function(){
+                bootbox.alert("ajax失败");
+            }
+        });
+        return jspHtml;
+    }
+
+    function  dialog(HTMLurl,submitUrl,title){
+        var dialog = bootbox.dialog({
+            title: title,
+            message: getJspHtml(HTMLurl),   //调用方法
+            buttons:{
+                "save":{
+                    label: '保存',
+                    //自定义样式
+                    className: "btn-success",
+                    callback: function() {
+                        $.ajax({
+                            url:submitUrl,
+                            type:'post',
+                            data:$("#mongoForm").serialize(),
+                            success:function(data){
+                                bootbox.alert("保存成功");
+                                $("#bootTab").bootstrapTable('refresh');
+                            },
+                            error:function(){
+                                bootbox.alert("ajax失败");
+                            }
+                        });
+                    }
+                },
+                "unSave":{
+                    label: '取消',
+                    //自定义样式
+                    className: "btn-info",
+                    callback: function() {
+                        // return false;  //dialog不关闭
+                    }
+                }
+            }
+        });
+    }
+
+
+
+
+</script>
+</html>

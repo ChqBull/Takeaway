@@ -6,14 +6,14 @@
 <mapper namespace="com.jk.mapper.gtf.StoreMapper">
 
     <select id="count" resultType="int">
-        select count(*) from store s,area a where s.area_id=a.id and s.shenhe=2 and s.isdelete=0
+        select count(*) from store s,area a where s.area_id=a.id and s.shenhe=2
         <if test="store.storeName!=null and store.storeName!=''">
             and storeName like CONCAT(CONCAT('%',#{store.storeName}),'%')
         </if>
     </select>
 
     <select id="findStoreAll" resultType="store">
-        select * from store s,area a where s.area_id=a.id and s.shenhe=2 and s.isdelete=0
+        select * from store s,area a where s.area_id=a.id and s.shenhe=2
         <if test="store.storeName!=null and store.storeName!=''">
             and storeName like CONCAT(CONCAT('%',#{store.storeName}),'%')
         </if>
@@ -49,7 +49,13 @@
     </update>
 
     <update id="delStore">
-        update store set isdelete=1 where id=#{store.id}
+        update store set isdelete=1
+        where id=#{store.id}
+    </update>
+
+    <update id="delStore1">
+        update store set isdelete=2
+        where id=#{store.id}
     </update>
 
 </mapper>

@@ -22,4 +22,6 @@ public interface StoreMapper {
     void updstore(@Param("store") Store store);
 
     void delStore(@Param("store") Store store);
+
+    void delStore1(@Param("store") Store store);
 }

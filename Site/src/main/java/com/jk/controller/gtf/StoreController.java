@@ -77,4 +77,9 @@ public class StoreController {
     public void delStore(Store store){
         storeService.delStore(store);
     }
+    @RequestMapping("delStore1")
+    @ResponseBody
+    public void delStore1(Store store){
+        storeService.delStore1(store);
+    }
 }
