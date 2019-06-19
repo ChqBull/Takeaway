@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>登陆页面</title>
+    <meta charset=utf-8"utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/css1/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/css1/style.css" />
+    <link rel="stylesheet" type="text/css" href="/css1/animate.css" />
+    <link rel="stylesheet" type="text/css" href="/css1/flavr.css" />
+    <link rel="stylesheet" type="text/css" href="/css1/style.css" />
+    <link rel="stylesheet" type="text/css" href="/css1/animate.css" />
+    <script type="text/javascript" src="/js1/jquery.min.js"></script>
+    <script type="text/javascript" src="/js1/flavr.min.js"></script>
+    <!--图标-->
+    <link rel="stylesheet" type="text/css" href="/css1/font-awesome.min.css" tppabs="http://www.17sucai.com/preview/1673365/2019-06-02/dll/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css1/bootstrap.css">
+    <!--布局框架-->
+    <link rel="stylesheet" type="text/css" href="/css1/util.css" tppabs="http://www.17sucai.com/preview/1673365/2019-06-02/dll/css/util.css">
+    <!--主要样式-->
+    <link rel="stylesheet" type="text/css" href="/css1/main.css" tppabs="http://www.17sucai.com/preview/1673365/2019-06-02/dll/css/main.css">
+    <script src="/js1/bootstrap.js"></script>
+
+</head>
+
+<body>
+
+<div class="login">
+    <div class="container-login100">
+        <div class="wrap-login100">
+            <div class="login100-pic js-tilt" data-tilt>
+                <img src="/css1/img-01.png" tppabs="http://www.17sucai.com/preview/1673365/2019-06-02/dll/img/img-01.png" alt="IMG">
+            </div>
+            <form class="login100-form validate-form" id="login" >
+				<span class="login100-form-title">
+					<font  size="6">骑手登录</font>
+				</span>
+                <center><b><font color="red" size="2" th:text="${msg}"></font></b></center>
+                <div class="wrap-input100 validate-input">
+                    <input class="input100" type="text" id="username" name="username" >
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100">
+						<i class="fa fa-envelope" aria-hidden="true"></i>
+					</span>
+                </div>
+                <div class="wrap-input100 validate-input">
+                    <input class="input100" type="password" id="password" name="password" >
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100">
+						<i class="fa fa-lock" aria-hidden="true"></i>
+					</span>
+
+                </div>
+                <div class="container-login100-form-btn">
+                    <button class="login100-form-btn" type="button" onclick="login()">登陆</button>
+                </div>
+                <div class="text-center p-t-12">
+                    <a class="txt2" href="javascript:">
+                        忘记密码？
+                    </a>
+                </div>
+                <div class="text-center p-t-136">
+                    <a class="txt2" href="javascript:void(0)" onclick="openmodal()">
+                        还没有账号？立即注册
+                        <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--新增页面-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">用户注册</h4>
+            </div>
+            <div class="modal-body">
+                <form id="register">
+                    <div class="form-group">
+                        <label  class="control-label">账号：</label>
+                        <input type="text" name="name" class="form-control" id="phoneNumber">
+                    </div>
+                    <div class="form-group">
+                        <label  class="control-label">创建密码：</label>
+                        <input type="text" name="password" class="form-control" id="passsword">
+                    </div>
+                    <div class="form-group">
+                        <label  class="control-label">确认密码：</label>
+                        <input type="text"  class="form-control" id="passsword2">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="register()">注册</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    /*用户登陆*/
+    function login() {
+       var username = $("#username").val();
+       var password = $("#password").val();
+        if (username==""){
+            new $.flavr("请输入账号！");
+        }
+        if (password==""){
+            new $.flavr("请输入密码！");
+        }
+        if(username!=""&&password!=""){
+            var form  = $("#login").serialize();
+            $.ajax({
+                url:"/login",
+                type:"post",
+                data:form,
+                success:function(data){
+                   if(data=="3"){
+                        location.href="/getdingdan"
+                    }else if(data=="2"){
+                       new $.flavr("用户不存在！");
+                   }else if(data=="1"){
+                       new $.flavr("用户不存在！");
+                   }else {
+                        new $.flavr(data);
+                    }
+                }
+            })
+        }
+
+
+
+    }
+    /*用户注册*/
+    function register() {
+        var form  = $("#register").serialize();
+        $.ajax({
+            url:"/doRegister",
+            type:"post",
+            data:form,
+            success:function(data) {
+                if (data == 0) {
+                    new $.flavr("此用户名已存在!");
+                }
+                if (data == 1) {
+                    new $.flavr(" 注册成功！");
+                }
+            }
+        })
+    }
+
+    function openmodal() {
+        $("#exampleModal").modal('show')
+    }
+
+
+</script>
+</html>

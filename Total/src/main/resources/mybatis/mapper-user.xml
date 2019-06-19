@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jk.mapper.syg.UserMapper">
+
+    <select id="findById"  resultType="com.jk.bean.UserBean">
+   SELECT u.id, u.name, u.password,
+			r.id as roleId, r.name as roleName,
+			p.id as permissionId, p.name as permissionName, p.url as permissionUrl
+      FROM user u, user_role ur, role r, role_permission rp, permission p
+      WHERE u.name = #{0}
+        AND u.id = ur.user_id
+        AND ur.role_id = r.id
+        AND r.id = rp.role_id
+        AND rp.permission_id = p.id
+    </select>
+
+    <select id="queryInfoByUsername" resultType="com.jk.bean.UserBean">
+        SELECT u.id, u.name, u.password FROM user u WHERE name = #{0}
+    </select>
+
+
+    <insert id="insertData"  parameterType="java.util.Map">
+        INSERT INTO user (id,name,password )
+        VALUES ("1",#{name},#{password});
+    </insert>
+</mapper>
+
+
