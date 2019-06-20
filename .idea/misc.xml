@@ -21,13 +21,14 @@
         <option value="$PROJECT_DIR$/User-LoginRegistration/pom.xml" />
         <option value="$PROJECT_DIR$/User-Member/pom.xml" />
         <option value="$PROJECT_DIR$/User-Order/pom.xml" />
-        <option value="$PROJECT_DIR$/User/pom.xml" />
         <option value="$PROJECT_DIR$/Total/pom.xml" />
         <option value="$PROJECT_DIR$/Site/pom.xml" />
         <option value="$PROJECT_DIR$/Scheduling/pom.xml" />
         <option value="$PROJECT_DIR$/Rider/pom.xml" />
         <option value="$PROJECT_DIR$/Business/pom.xml" />
+        <option value="$PROJECT_DIR$/User/pom.xml" />
       </list>
     </option>
   </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
 </project>
