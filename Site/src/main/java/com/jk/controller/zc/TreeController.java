@@ -29,7 +29,6 @@ public class TreeController {
         return list;
     }
     @RequestMapping("gettree")
-
     public String gettree(){
 
         return "tree";

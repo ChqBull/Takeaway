@@ -5,7 +5,7 @@ import com.jk.bean.dingdan;
 import java.util.HashMap;
 
 public interface ZcService {
-    HashMap<String, Object> finddingdan( dingdan hs);
+    HashMap<String, Object> finddingdan(Integer id, dingdan hs);
 
     void updatedaodian(Integer id);
 
@@ -16,4 +16,6 @@ public interface ZcService {
     Integer workStatus(Integer id);
 
     void applyingUpWork(Integer id);
+
+    void applyingDownWork(Integer id);
 }

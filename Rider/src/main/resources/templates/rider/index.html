@@ -4,8 +4,28 @@
     <title>用户中心</title>
 </head>
 <body>
-    <h1>用户中心</h1>
-    <hr>
-    <h1 >欢迎<span th:text="${userName}"></span>,这里是骑手中心</h1>
+     <input type="button" value="新增收货地址" onclick="addArea()">
+     <div id="addarea">
+     </div>
 </body>
+    <script>
+        function addArea(){
+            var str = '<input type="text" id="area">' +
+                '<input type="button" value="保存" onclick="addAreaId()">'
+            $("#addarea").html(str)
+        }
+        addAreaId = function(){
+            $.ajax({
+
+                url:"<%=path%>/user/add.do",
+                type:"post",
+                data:form,
+                success:function(){
+                },
+                error:function(){
+                    alert("新增失败！程序有问题！");
+                }
+            })
+        }
+    </script>
 </html>

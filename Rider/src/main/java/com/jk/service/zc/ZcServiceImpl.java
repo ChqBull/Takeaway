@@ -13,9 +13,9 @@ public class ZcServiceImpl  implements  ZcService{
     @Resource
     ZcMappers zcMapper;
     @Override
-    public HashMap<String, Object> finddingdan(dingdan hs) {
-        List<dingdan> list=zcMapper.finddingdan(hs);
-        long counr=zcMapper.finddingdancount();
+    public HashMap<String, Object> finddingdan(Integer id, dingdan hs) {
+        List<dingdan> list=zcMapper.finddingdan(id,hs);
+        long counr=zcMapper.finddingdancount(id);
         HashMap<String, Object>map=new HashMap<>();
         map.put("total",counr);
         map.put("rows",list);
@@ -39,12 +39,16 @@ public class ZcServiceImpl  implements  ZcService{
 
     @Override
     public Integer workStatus(Integer id) {
-
         return zcMapper.workStatus(id);
     }
 
     @Override
     public void applyingUpWork(Integer id) {
         zcMapper.applyingUpWork(id);
+    }
+
+    @Override
+    public void applyingDownWork(Integer id) {
+        zcMapper.applyingDownWork(id);
     }
 }

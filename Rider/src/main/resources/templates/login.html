@@ -80,6 +80,10 @@
             <div class="modal-body">
                 <form id="register">
                     <div class="form-group">
+                        <label  class="control-label">姓名：</label>
+                        <input type="text" name="horsemanName" class="form-control" id="horsemanName">
+                    </div>
+                    <div class="form-group">
                         <label  class="control-label">账号：</label>
                         <input type="text" name="name" class="form-control" id="phoneNumber">
                     </div>
@@ -119,13 +123,9 @@
                 type:"post",
                 data:form,
                 success:function(data){
-                   if(data=="3"){
+                   if(data=="1"){
                         location.href="/getdingdan"
-                    }else if(data=="2"){
-                       new $.flavr("用户不存在！");
-                   }else if(data=="1"){
-                       new $.flavr("用户不存在！");
-                   }else {
+                    }else {
                         new $.flavr(data);
                     }
                 }

@@ -37,7 +37,7 @@ public class ShiroController {
 
         String userName = request.getParameter("username");
         String password = request.getParameter("password");
-        String msg="";
+        String msg="1";
         // 1.获取Subject
         Subject subject = SecurityUtils.getSubject();
         // 2.封装用户数据
@@ -49,19 +49,8 @@ public class ShiroController {
             boolean isAuthenticated = subject.isAuthenticated();
             System.out.println("是否认证通过: " + isAuthenticated);
             HttpSession session = request.getSession();
-            session.setAttribute("username",userName);
-
             UserBean user = userService.findByName(userName);
-            Integer id = user.getId();
-            if (id==1){
-                return "1";
-            }
-            if (id==2){
-                return "2";
-            }
-            if (id==3){
-                return "3";
-            }
+            session.setAttribute("user",user);
         } catch (UnknownAccountException e){
             e.printStackTrace();
             boolean isAuthenticated = subject.isAuthenticated();

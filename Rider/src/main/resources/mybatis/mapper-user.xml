@@ -3,11 +3,11 @@
 <mapper namespace="com.jk.mapper.syg.UserMapper">
 
     <select id="findById"  resultType="com.jk.bean.UserBean">
-   SELECT u.id, u.name, u.password,
+   SELECT u.id, u.horsemanPhone as name, u.password,
 			r.id as roleId, r.name as roleName,
 			p.id as permissionId, p.name as permissionName, p.url as permissionUrl
-      FROM user u, user_role ur, role r, role_permission rp, permission p
-      WHERE u.name = #{0}
+      FROM horseman u, user_role ur, role r, role_permission rp, permission p
+      WHERE u.horsemanPhone = #{0}
         AND u.id = ur.user_id
         AND ur.role_id = r.id
         AND r.id = rp.role_id
@@ -15,14 +15,15 @@
     </select>
 
     <select id="queryInfoByUsername" resultType="com.jk.bean.UserBean">
-        SELECT u.id, u.name, u.password FROM user u WHERE name = #{0}
+        SELECT u.id, u.horsemanPhone as name , u.password FROM horseman u WHERE u.horsemanPhone = #{0}
     </select>
 
-
     <insert id="insertData"  parameterType="java.util.Map">
-        INSERT INTO user (id,name,password )
-        VALUES ("3",#{name},#{password});
+        INSERT INTO horseman (horsemanName ,horsemanPhone,password )
+        VALUES (#{horsemanName} ,#{name},#{password});
     </insert>
+
+
 </mapper>
 
 
