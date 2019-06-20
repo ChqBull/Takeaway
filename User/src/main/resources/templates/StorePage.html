@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>欢迎下单</title>
-    <!-- 引入bootstrap的css -->
+    <title>欢迎光临本店</title>
     <link  href="/js/bootstrap/css/bootstrap.min.css" rel="stylesheet" >
     <!-- 引入bootstrap-treeview的css -->
     <link  href="/js/treeview/bootstrap-treeview.min.css" rel="stylesheet" >
@@ -35,40 +34,30 @@
     <script type="text/javascript" src="/js/fileinput/themes/fa/theme.js"></script>
 </head>
 <body>
-<br>
-
 <form id="pro_from" class="form-inline">
-
-    <b>地区:</b><div class="form-group">
-        <select class="form-control" name="area_id" id="prodiqu">
-             <option>请选择</option>
-        </select>
-    </div>
-
-
-    <div class="form-group">
-        <label for="proName">商家店名</label>
-        <input type="text" class="form-control" id="proName" placeholder="商家店名">
-    </div>
-    <br>
+<input  type="hidden" th:value="${id}" id="storeId">
+<b>炒菜类型:</b><div class="form-group">
+    <select class="form-control" name="type_id" id="menuType">
+        <option value=0>请选择</option>
+    </select>
+</div>
+  <br>
     <button type="button" class="btn btn-success" onclick="search()">搜索</button>
     <button type="button" class="btn btn-primary" onclick="reset()">重置</button>
 </form>
-<!--<button type="button" class="btn btn-info btn-lg" onclick="add()">新增</button>-->
-
-
+      <button type="button" class="btn btn-primary" onclick="toShopCarPage()">进入购物车</button>
 <table id="bootTab" ></table>
-
 </body>
 <script type="text/javascript">
     $(function(){
-        ProviceBind();
+        queryMenuType();
     });
 
     $(function(){
+        var id = $("#storeId").val();
         $("#bootTab").bootstrapTable({
             border:false,
-            url:"findBusiness",
+            url:"findMenue?id="+id,
             method:"post",
             striped: true,  	// 斑马线效果     默认false
             //只允许选中一行
@@ -87,19 +76,15 @@
             toolbar:'#tabToolBar',   //  工具定义位置
             columns:[
                 /* field 属性值和 对象的属性名保持一致 */
-                {field:'id',width:100,title:"商户编号",
-                    /*formatter:function(value,row,index){   //  格式化  当前单元格内容
-                        return "<input type='checkbox' value="+row.id+" name='chk'/>";
-                    }*/
-                },
-                {field:'storeName',title:'商家名称',width:$(this).width() * 0.1},
-                {field:'storeImg',title:'图片',width:100,
+                {field:'id',width:100,title:"菜品编号"},
+                {field:'foodName',title:'菜品名字',width:$(this).width() * 0.1},
+                {field:'foodImg',title:'菜单图片',width:100,
                     formatter: function (value,row,index){
                         return "<img  width='80' height='80'  src='"+value+"'/>" ;
                     }
                 },
                 {field:'xxxx',title:'操作',formatter: function(value,row,index){
-                        var content = "<a href='javascript:IntoTheStore(&quot;"+row.id+"&quot;)'>进店</a>";
+                        var content = "<a href='javascript:intoshopcar(&quot;"+row.id+"&quot;)'>加入购物车</a>";
                         return content;
                     },width:$(this).width() * 0.2}
             ],
@@ -111,145 +96,61 @@
                     */
                     "pageSize":params.limit,
                     "start":params.offset,
-
                 }
                 return whereParams;
             },
-            //前台--排序字段
-            //sortName:'proPrice',
-            //sortOrder:'desc',
-            //前台--搜索框
-            // search:true,
-            //启动回车键做搜索功能
-            //searchOnEnterKey:true,
-            //分页方式   后台请求的分页方式
             sidePagination:'server',
-            pagination: true,                   //是否显示分页（*）
+            pagination: false,                   //是否显示分页（*）
             pageNum: 1,                       //每页的记录行数（*）
             pageSize: 3,                       //每页的记录行数（*）
             pageList: [1,3,6,9,12],        //可供选择的每页的行数（*）
         });
     });
-    function  search() {
 
-        if($("#prodiqu").val()!="请选择"){
+    function  search() {
             $("#bootTab").bootstrapTable("refresh", {
                 "query": {
-                    "storeName": $("#proName").val(),
-                    "area_id" : $("#prodiqu").val(),
-                }
-            });
-        }else{
-            alert("请先选择你的地区");
-        }
-
-    }
-  /*  function  deleteit(id) {
-        if (confirm("您确定要删除数据吗？")) {
-            $.ajax({
-                url: "deletedata?id=" +id,
-                type: "post",
-                success: function () {
-                    alert("删除成功");
-                    $("#bootTab").bootstrapTable('refresh');
-                }, error: function () {
+                    "typeId": $("#menuType").val(),
                 }
             });
 
-        }
     }
-    function add(){
-        dialog("toaddPage","adddata","新增");
-    }
-
-    //创建
-
-
-
-    /!*
-        *发送ajax请求获取jsp页面内容
-        *!/
-    function getJspHtml(urlStr){
-        var  jspHtml = "";
-//		 async  (默认: true) 默认设置下，所有请求均为异步请求。如果需要发送同步请求，请将此选项设置为 false。
-        //注意，同步请求将锁住浏览器，用户其它操作必须等待请求完成才可以执行。
-        $.ajax({
-            url:urlStr,
-            type:'post',
-            //同步的ajax
-            async:false,
-            success:function(data){
-                //alert(data);//data--addProduct.jsp页面内容
-                jspHtml = data;
-            },
-            error:function(){
-                bootbox.alert("ajax失败");
-            }
-        });
-        return jspHtml;
-    }
-
-    function  dialog(HTMLurl,submitUrl,title){
-
-        var dialog = bootbox.dialog({
-            title: title,
-            message: getJspHtml(HTMLurl),   //调用方法
-            buttons:{
-                "save":{
-                    label: '保存',
-                    //自定义样式
-                    className: "btn-success",
-                    callback: function() {
-                        $.ajax({
-                            url:submitUrl,
-                            type:'post',
-                            data:$("#mongoForm").serialize(),
-                            success:function(data){
-                                bootbox.alert("保存成功");
-                                $("#bootTab").bootstrapTable('refresh');
-                            },
-                            error:function(){
-                                bootbox.alert("ajax失败");
-                            }
-                        });
-                    }
-                },
-                "unSave":{
-                    label: '取消',
-                    //自定义样式
-                    className: "btn-info",
-                    callback: function() {
-
-                    }
-                }
-            }
-        });
-    }
-*/
-
-    function ProviceBind() {
+    function queryMenuType() {
         //清空下拉数据
-        $("#prodiqu").html("");
-        var str = "<option>请选择</option>";
+        $("#menuType").html("");
+        var str = "<option value='0'>请选择</option>";
         $.ajax({
             type: "POST",
-            url: "findArea",
+            url: "findmenuType",
             success: function (data) {
                 //从服务器获取数据进行绑定
-
                 $.each(data, function (i, item) {
-                    str += "<option value=" + item.id + ">" + item.areaName + "</option>";
+                    str += "<option value=" + item.id + ">" + item.menuType + "</option>";
                 })
                 //将数据添加到省份这个下拉框里面
-                $("#prodiqu").append(str);
+                $("#menuType").append(str);
             },
             error: function () { alert("Error"); }
         });
     }
-       function IntoTheStore(id){
-        location.href="inStore?id="+id;
-       }
+   function toShopCarPage(){
+       var id = $("#storeId").val();
+       location.href="toShopCarPage?id="+id;
+   }
+     function intoshopcar(id){
+         var storeid = $("#storeId").val();
+         $.ajax({
+             type: "POST",
+             url: "addShopCar?id="+id+"&storeid="+storeid,
+             success: function (data) {
+                 alert("加入购物车成功，我在购物车等您奥~");
+             },
+             error: function () {
+                 alert("加入购物车失败");
+             }
+         });
 
+     }
 
 </script>
 </html>
