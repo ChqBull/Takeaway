@@ -1,6 +1,7 @@
 package com.jk.mapper;
 
 import com.jk.bean.UserBean;
+import org.springframework.stereotype.Repository;
 
 /**
  * @author Shady
@@ -9,6 +10,7 @@ import com.jk.bean.UserBean;
  * @description: TODO
  * @date 2019/6/1615:43
  */
+@Repository
 public interface UserMapper {
 
     UserBean findUserByPhone(String phoneNumber);

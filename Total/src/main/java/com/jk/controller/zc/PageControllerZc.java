@@ -21,4 +21,10 @@ public class PageControllerZc {
         return "caidan";
     }
 
+    @RequestMapping("gettree")
+    public String gettree2(){
+
+        return "tree";
+    }
+
 }

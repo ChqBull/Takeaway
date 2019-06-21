@@ -27,12 +27,15 @@
 
     <select id="findcaidan" resultType="MenuBean">
 
-    select me.id,me.foodName,me.foodImg,me.price,me.shenhe,mt.menuType,st.activity,st.storeName from menu me,menu_type mt ,store st  where me.type_id = mt.id and me.store_id = st.id and st.id = '1'
+    select me.id,me.foodName,me.foodImg,me.price,me.shenhe,mt.menuType,st.activity,st.storeName
+    from menu me,menu_type mt ,store st  where me.type_id = mt.id and me.store_id = st.id and me.shenhe = 1
        <!-- <if test="hs.foodName!=null and hs.foodName!=''">
             and foodName like '%${hs.foodName}%'
         </if>-->
+    </select>
 
-      LIMIT  #{start},#{pageSize}
-
+    <select id="chakanxiangqing" resultType="menuBean">
+            select * from menu me ,menu_type mt ,store st
+            where me.store_id = st.id and me.type_id = mt.id  and me.id = #{id}
     </select>
 </mapper>

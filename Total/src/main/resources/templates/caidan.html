@@ -85,7 +85,7 @@
                 {field:'foodName',title:'菜品名称',width:100},
                 {field:'foodImg',title:'菜品图片',
                     formatter:function(value,row,index){   //  格式化  当前单元格内容
-                        return "<img src=''/>";
+                        return "<img src='"+value+"' width='60'/>";
                     },
                     width:100},
                 {field:'price',title:'单价',width:100},
@@ -144,7 +144,7 @@
             searchOnEnterKey: true,
             //分页方式   后台请求的分页方式
             sidePagination: 'server',
-            pagination: true,                   //是否显示分页（*）
+            pagination: false,                   //是否显示分页（*）
             pageNum: 1,                       //每页的记录行数（*）
             pageSize: 3,                       //每页的记录行数（*）
             pageList: [3, 6, 9, 12],        //可供选择的每页的行数（*）
@@ -153,12 +153,12 @@
     function update(id) {
 
         $.ajax({
-            url: "updatedianmian",
+            url: "updatecaidan",
             data: {id: id},
             type: "post",
             success: function (data) {
                 alert("授权成功")
-                location.href="getdianmian";
+
             }, error: function () {
                 alert("授权失败")
             }

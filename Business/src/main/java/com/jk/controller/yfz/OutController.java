@@ -19,15 +19,15 @@ public class OutController {
     //*用户后登陆后页面加载展示*//
     @RequestMapping("findUserListAndOrderAndThoList")
     @ResponseBody
-    public HashMap<String,Object> findUserListAndOrderAndThoList(Integer page, Integer rows,OutBean outBean){
-        HashMap<String,Object> hash = outService.findUserListAndOrderAndThoList(page,rows,outBean);
+    public HashMap<String,Object> findUserListAndOrderAndThoList(){
+        HashMap<String,Object> hash = outService.findUserListAndOrderAndThoList();
         return hash;
     }
     //*查看详情*//
     @RequestMapping("findDetailsList")
     @ResponseBody
-    public HashMap<String,Object> FindDetailsList(Integer page, Integer rows, TmoBean tmoBean){
-        HashMap<String,Object> hashMap = outService.FindDetailsList(page,rows,tmoBean);
+    public HashMap<String,Object> FindDetailsList(String orderNum){
+        HashMap<String,Object> hashMap = outService.FindDetailsList(orderNum);
         return hashMap;
     }
 

@@ -17,4 +17,9 @@ public class TreeServiceImpl  implements  TreeService{
     public List<MenuTree> findtree() {
         return treeMapper.findtree();
     }
+
+    @Override
+    public List<MenuTree> findtree2() {
+        return treeMapper.findtree2();
+    }
 }

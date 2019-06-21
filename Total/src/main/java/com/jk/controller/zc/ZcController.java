@@ -2,9 +2,12 @@ package com.jk.controller.zc;
 
 import com.alibaba.fastjson.JSON;
 import com.jk.bean.MenuBean;
+import com.jk.bean.MenuTree;
 import com.jk.bean.horseman;
 import com.jk.bean.store;
 import com.jk.service.zc.ZcService;
+import com.jk.utils.GenerateFreemarker;
+import com.jk.utils.TreeNoteUtil;
 import net.sf.json.JSONArray;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +43,8 @@ public class ZcController {
     }
     @RequestMapping("findcaidan")
     @ResponseBody
-    public HashMap<String,Object> findcaidan(Integer pageSize, Integer start, MenuBean hs){
-        HashMap<String, Object> map = zcService.findcaidan(pageSize, start, hs);
+    public HashMap<String,Object> findcaidan(MenuBean hs){
+        HashMap<String, Object> map = zcService.findcaidan(hs);
         return map;
     }
 
@@ -76,6 +79,37 @@ public class ZcController {
     @ResponseBody
     public void updatecaidan(Integer id){
         zcService.updatecaidan(id);
+        HashMap<String,Object> map=new HashMap<>();
+        MenuBean menuBean= zcService.chakanxiangqing(id);
+        map.put("foodName",menuBean.getFoodName());
+        map.put("foodImg",menuBean.getFoodImg());
+        map.put("menuType",menuBean.getMenuType());
+        map.put("price",menuBean.getPrice());
+        //生成路径		静态html名称
+        String GeneratePath ="E:\\Takeaway\\User\\src\\main\\resources\\static\\menu"+menuBean.getId()+".html";
+        //模板路径
+        String filePath = "E:\\Takeaway\\Total\\src\\main\\resources\\templates\\freemarker";
+        //模板名称
+        GenerateFreemarker.createHtml(GeneratePath, filePath, map, "menu");
 
     }
+
+
+    @RequestMapping("findtree")
+    @ResponseBody
+    public  List<MenuTree> findtree2(){
+        HashMap<String,Object>map=new HashMap<>();
+        List<MenuTree>list=zcService.findtree();
+        list= TreeNoteUtil.getFatherNode(list);
+        map.put("rows",list);
+        return list;
+    }
+
+
+
+
+
+
+
+
 }

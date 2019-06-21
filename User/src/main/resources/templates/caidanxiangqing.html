@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>${m.foodName}</title>
+</head>
+<body>
+菜名:
+    <span th:text="${m.foodName}"></span><br>
+样品:
+<img src="${m.foodImg}"><br>
+类别:
+<span th:text="${m.menuType}"></span>
+售价:
+<span th:text="${m.price}"></span>
+</body>
+</html>

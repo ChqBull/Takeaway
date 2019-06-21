@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface TreeService {
     List<MenuTree> findtree();
+
+    List<MenuTree> findtree2();
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"/>
     <title>用户登录展示</title>
@@ -29,6 +29,7 @@
         <label for="userPhone">用户手机号</label>
         <input type="text" class="form-control" id="userPhone">
     </div>
+
     <button type="button" class="btn btn-success" onclick="searchBtn()">搜索</button>
     <button type="button" class="btn btn-primary" onclick="reset()">重置</button>
 </form>
@@ -77,8 +78,6 @@
                         return '<input type="checkbox" value='+value+' name="chk"/>';
                     }
                 },
-                {field: 'horsemanName', title: '骑手姓名'},
-                {field: 'horsemanPhone', title: '骑手电话'},
                 {field: 'orderMoney', title: '订单总价'},
                 {field: 'orderStartTime', title: '下单时间'},
                 {field: 'orderEndTime', title: '订单完成时间'},

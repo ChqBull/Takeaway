@@ -6,27 +6,27 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Site-Order" />
+        <module name="Total-Webmaster" />
         <module name="Site-Business" />
+        <module name="Business-Order" />
         <module name="Rider-Order" />
         <module name="User-Order" />
         <module name="Total-Audit" />
         <module name="Site-Financial" />
         <module name="Scheduling-Rider" />
+        <module name="user" />
         <module name="TakeawayEureka" />
         <module name="TakeawayConfig" />
         <module name="Scheduling-Distribution" />
         <module name="User-LoginRegistration" />
-        <module name="Business-Order" />
+        <module name="Site-Order" />
         <module name="Total" />
         <module name="Total-Page" />
         <module name="Rider" />
-        <module name="Total-Webmaster" />
-        <module name="User" />
+        <module name="Site" />
         <module name="Scheduling" />
         <module name="User-Member" />
         <module name="Business" />
-        <module name="Site" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

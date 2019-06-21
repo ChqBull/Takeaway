@@ -2,6 +2,8 @@ package com.jk.service;
 
 import com.jk.bean.UserBean;
 
+import java.util.HashMap;
+
 /**
  * @author Shady
  * @title: UserService
@@ -15,5 +17,5 @@ public interface UserService {
 
     String register(UserBean userBean);
 
-    String login(UserBean userBean);
+    UserBean login(UserBean userBean);
 }

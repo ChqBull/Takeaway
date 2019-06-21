@@ -9,5 +9,6 @@ import java.util.List;
 public interface TreeMapper {
     @Select("select * from tree")
     List<MenuTree> findtree() ;
-
+    @Select("select * from tree2")
+    List<MenuTree> findtree2();
 }

@@ -18,4 +18,7 @@ public class MenuBean implements Serializable {
     private String activity;
     private String storeName;
     private String menuType;
+    //获取菜单的数量
+    private Integer number;
+
 }

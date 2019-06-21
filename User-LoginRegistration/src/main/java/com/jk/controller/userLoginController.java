@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
+
 /**
  *@Author: Shady
  *@Description: none
@@ -58,9 +60,8 @@ public class userLoginController {
     /*登录*/
     @RequestMapping("login")
     @ResponseBody
-    public String login(@RequestBody UserBean userBean) {
-        String msg = userService.login(userBean);
-        return msg;
+    public UserBean login(@RequestBody UserBean userBean) {
+        return  userService.login(userBean);
     }
 
 }

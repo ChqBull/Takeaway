@@ -6,7 +6,7 @@
 <mapper namespace="com.jk.mapper.UserMapper">
     <!--判断该手机号是否注册过-->
     <select id="findUserByPhone" parameterType="string" resultType="com.jk.bean.UserBean">
-        select * from t_user where userPhone = #{0}
+        select id,realName,userPhone as phoneNumber, password from t_user where userPhone = #{0}
     </select>
     <!--注册  -->
     <insert id="saveOneUser" parameterType="com.jk.bean.UserBean">

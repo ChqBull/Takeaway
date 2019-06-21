@@ -7,9 +7,9 @@ import java.util.HashMap;
 
 public interface OutService {
 
-    HashMap<String, Object> findUserListAndOrderAndThoList(Integer page, Integer rows, OutBean outBean);
+    HashMap<String, Object> findUserListAndOrderAndThoList();
 
-    HashMap<String, Object> FindDetailsList(Integer page, Integer rows, TmoBean tmoBean);
+    HashMap<String, Object> FindDetailsList(String orderNum);
 
     void upDateJu(String id);
 

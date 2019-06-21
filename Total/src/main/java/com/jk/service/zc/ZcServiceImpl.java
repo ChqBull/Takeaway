@@ -1,6 +1,7 @@
 package com.jk.service.zc;
 
 import com.jk.bean.MenuBean;
+import com.jk.bean.MenuTree;
 import com.jk.bean.horseman;
 import com.jk.bean.store;
 import com.jk.mapper.zc.ZcMapper;
@@ -47,11 +48,9 @@ public class ZcServiceImpl  implements  ZcService{
     }
 
     @Override
-    public HashMap<String, Object> findcaidan(Integer pageSize, Integer start, MenuBean hs) {
-        List<MenuBean>list=zcMapper.findcaidan(pageSize,start,hs);
-        long counr=zcMapper.findcaidancount();
+    public HashMap<String, Object> findcaidan(MenuBean hs) {
+        List<MenuBean>list=zcMapper.findcaidan(hs);
         HashMap<String, Object>map=new HashMap<>();
-        map.put("total",counr);
         map.put("rows",list);
         return map;
     }
@@ -59,5 +58,15 @@ public class ZcServiceImpl  implements  ZcService{
     @Override
     public void updatecaidan(Integer id) {
         zcMapper.updatecaidan(id);
+    }
+
+    @Override
+    public List<MenuTree> findtree() {
+        return zcMapper.findtree();
+    }
+
+    @Override
+    public MenuBean chakanxiangqing(Integer id) {
+        return zcMapper.chakanxiangqing(id);
     }
 }

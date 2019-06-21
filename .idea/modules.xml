@@ -20,10 +20,10 @@
       <module fileurl="file://$PROJECT_DIR$/Total-Audit/Total-Audit.iml" filepath="$PROJECT_DIR$/Total-Audit/Total-Audit.iml" />
       <module fileurl="file://$PROJECT_DIR$/Total-Page/Total-Page.iml" filepath="$PROJECT_DIR$/Total-Page/Total-Page.iml" />
       <module fileurl="file://$PROJECT_DIR$/Total-Webmaster/Total-Webmaster.iml" filepath="$PROJECT_DIR$/Total-Webmaster/Total-Webmaster.iml" />
-      <module fileurl="file://$PROJECT_DIR$/User/User.iml" filepath="$PROJECT_DIR$/User/User.iml" />
       <module fileurl="file://$PROJECT_DIR$/User-LoginRegistration/User-LoginRegistration.iml" filepath="$PROJECT_DIR$/User-LoginRegistration/User-LoginRegistration.iml" />
       <module fileurl="file://$PROJECT_DIR$/User-Member/User-Member.iml" filepath="$PROJECT_DIR$/User-Member/User-Member.iml" />
       <module fileurl="file://$PROJECT_DIR$/User-Order/User-Order.iml" filepath="$PROJECT_DIR$/User-Order/User-Order.iml" />
+      <module fileurl="file://$PROJECT_DIR$/User/user.iml" filepath="$PROJECT_DIR$/User/user.iml" />
     </modules>
   </component>
 </project>

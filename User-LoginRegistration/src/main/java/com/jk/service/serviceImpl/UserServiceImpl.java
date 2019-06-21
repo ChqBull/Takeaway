@@ -36,9 +36,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     RedisTemplate redisTemplate;
 
-
-
-
     @Override
     public String phoneTest(String phoneNumber) {
         int num=(int)(Math.random()*9000)+1000;
@@ -101,24 +98,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String login(UserBean userBean) {
+    public UserBean login(UserBean userBean) {
+        HashMap<String ,Object> map = new  HashMap<String ,Object>();
         String msg="";
         String phoneNumber = userBean.getPhoneNumber();
         UserBean user = userMapper.findUserByPhone(phoneNumber);
 
         if (!phoneNumber.equals("")&&user==null){
-                msg = "0";
+            user.setCode("0");
         }
         if (user!=null){
             String password1 = userBean.getPassword();
             String password = user.getPassword();
             if (!password.equals(password1)){
-                msg = "0";
+                user.setCode("0");
             }else{
-                 msg ="1";
+                user.setCode("1");
             }
-
         }
-        return msg;
+        return user;
     }
 }

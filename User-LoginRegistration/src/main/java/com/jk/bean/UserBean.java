@@ -19,6 +19,8 @@ package com.jk.bean;  /**
 public class UserBean {
     private String phoneNumber;
     private String password;
+    private String realName;
+    private Integer id;
     private String code;
 
     public String getPhoneNumber() {
@@ -43,6 +45,22 @@ public class UserBean {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }
 

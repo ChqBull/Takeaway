@@ -33,4 +33,18 @@ public class TreeController {
 
         return "tree";
     }
+    @RequestMapping("findtree2")
+    @ResponseBody
+    public  List<MenuTree> findtree2(){
+        HashMap<String,Object>map=new HashMap<>();
+        List<MenuTree>list=treeService.findtree2();
+        list=TreeNoteUtil.getFatherNode(list);
+        map.put("rows",list);
+        return list;
+    }
+    @RequestMapping("gettree2")
+    public String gettree2(){
+
+        return "tree2";
+    }
 }
