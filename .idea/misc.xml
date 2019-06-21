@@ -27,6 +27,9 @@
         <option value="$PROJECT_DIR$/Rider/pom.xml" />
         <option value="$PROJECT_DIR$/Business/pom.xml" />
         <option value="$PROJECT_DIR$/User/pom.xml" />
+        <option value="$PROJECT_DIR$/Business2/pom.xml" />
+        <option value="$PROJECT_DIR$/Zuul/pom.xml" />
+        <option value="$PROJECT_DIR$/Zuul2/pom.xml" />
       </list>
     </option>
   </component>

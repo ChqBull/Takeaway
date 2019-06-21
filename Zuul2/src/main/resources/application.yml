@@ -1,0 +1,27 @@
+server:
+  port: 3066
+spring:
+  application:
+    name: api-gateway-zuul
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://192.168.1.152:1001/eureka/
+  instance:
+    prefer-ip-address: true
+security:  #配置访问 zuul 的 routes 的时候使用
+  user:
+    name: zuul
+    password: zuul
+zuul:
+  routes: #配置路由映射
+    route-map2: #保证唯一即可
+      path: /** #映射的路径
+      serviceId: business #给特定服务做映射,和之前效果一样
+      #url: http://localhost:8081/
+ribbon:
+  eureka:
+    enabled: false #在eureka中禁用 ribbon 的负载均衡
+business: #给配置serviceId对应的服务指定ribbon负载均衡,从ListOfServers配置的地址中选择,多个逗号分隔
+  ribbon:
+    listOfServers: http://192.168.1.125:3001/,http://192.168.1.125:3101/

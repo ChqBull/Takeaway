@@ -3,6 +3,7 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/Business" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Business-Order" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Business2" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Rider" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Rider-Order" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Scheduling" charset="UTF-8" />
@@ -19,9 +20,11 @@
     <file url="file://$PROJECT_DIR$/Total-Page" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Total-Webmaster" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/User" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/User" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/User-LoginRegistration" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/User-Member" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/User-Order" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Zuul" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Zuul2" charset="UTF-8" />
+    <file url="PROJECT" charset="GBK" />
   </component>
 </project>

@@ -23,6 +23,9 @@
       <module fileurl="file://$PROJECT_DIR$/User-LoginRegistration/User-LoginRegistration.iml" filepath="$PROJECT_DIR$/User-LoginRegistration/User-LoginRegistration.iml" />
       <module fileurl="file://$PROJECT_DIR$/User-Member/User-Member.iml" filepath="$PROJECT_DIR$/User-Member/User-Member.iml" />
       <module fileurl="file://$PROJECT_DIR$/User-Order/User-Order.iml" filepath="$PROJECT_DIR$/User-Order/User-Order.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Zuul/Zuul.iml" filepath="$PROJECT_DIR$/Zuul/Zuul.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Zuul2/Zuul2.iml" filepath="$PROJECT_DIR$/Zuul2/Zuul2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Business2/business.iml" filepath="$PROJECT_DIR$/Business2/business.iml" />
       <module fileurl="file://$PROJECT_DIR$/User/user.iml" filepath="$PROJECT_DIR$/User/user.iml" />
     </modules>
   </component>

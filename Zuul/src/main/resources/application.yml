@@ -1,0 +1,28 @@
+server:
+  port: 3006
+spring:
+  application:
+    name: api-gateway-zuul
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://192.168.1.152:1001/eureka/
+  instance:
+    prefer-ip-address: true
+security:  #���÷��� zuul �� routes ��ʱ��ʹ��
+  user:
+    name: zuul
+    password: zuul
+zuul:
+  routes: #����·��ӳ��
+    route-map2: #��֤Ψһ����
+      path: /** #ӳ���·��
+      serviceId: business #���ض�������ӳ��,��֮ǰЧ��һ��
+      #url: http://localhost:8081/
+ribbon:
+  eureka:
+    enabled: false #��eureka�н��� ribbon �ĸ��ؾ���
+business: #������serviceId��Ӧ�ķ���ָ��ribbon���ؾ���,��ListOfServers���õĵ�ַ��ѡ��,������ŷָ�
+  ribbon:
+    listOfServers: http://192.168.1.125:3001/,http://192.168.1.125:3101/
+

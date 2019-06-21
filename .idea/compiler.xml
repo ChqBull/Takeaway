@@ -7,8 +7,9 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Total-Webmaster" />
-        <module name="Site-Business" />
+        <module name="Total" />
         <module name="Business-Order" />
+        <module name="Zuul" />
         <module name="Rider-Order" />
         <module name="User-Order" />
         <module name="Total-Audit" />
@@ -20,17 +21,20 @@
         <module name="Scheduling-Distribution" />
         <module name="User-LoginRegistration" />
         <module name="Site-Order" />
-        <module name="Total" />
+        <module name="business" />
+        <module name="Site-Business" />
         <module name="Total-Page" />
         <module name="Rider" />
-        <module name="Site" />
         <module name="Scheduling" />
         <module name="User-Member" />
+        <module name="Zuul2" />
         <module name="Business" />
+        <module name="Site" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="Business" target="1.8" />
+      <module name="business" target="1.8" />
       <module name="Business-Order" target="1.8" />
       <module name="businessorder" target="1.8" />
       <module name="Rider" target="1.8" />
@@ -57,6 +61,8 @@
       <module name="User-Member" target="1.8" />
       <module name="User-Order" target="1.8" />
       <module name="usermember" target="1.8" />
+      <module name="Zuul" target="1.8" />
+      <module name="Zuul2" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
